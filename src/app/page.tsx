@@ -1,5 +1,6 @@
 import { Task } from "@/lib/types";
 import TaskList from "@/components/TaskList";
+import { calculateProductivityScore } from "@/lib/scores";
 export default function Home() {
   const task1: Task = {
     id: "1",
@@ -22,6 +23,7 @@ export default function Home() {
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold">Today</h1>
+      <p>Productivity: {calculateProductivityScore(tasks)}%</p>
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Tasks</h2>

@@ -1,5 +1,5 @@
 import { Task } from "@/lib/types";
-
+import TaskItem from "@/components/TaskItem";
 // Accept Task[] as props
 // Render task description in a list
 
@@ -11,7 +11,9 @@ export default function TaskList({ tasks }: TaskListProps) {
   return (
     <ul className="space-y-4 mt-5 ml-8">
       {tasks.map((task) => (
-        <li key={task.id}>{task.description}</li>
+        <li key={task.id}>
+          <TaskItem task={task} />
+        </li>
       ))}
     </ul>
   );
