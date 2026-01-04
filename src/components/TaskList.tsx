@@ -9,7 +9,7 @@ type TaskListProps = {
 
 export default function TaskList({ tasks }: TaskListProps) {
   return (
-    <ul>
+    <ul className="space-y-4 mt-5 ml-8">
       {tasks.map((task) => (
         <li key={task.id}>{task.description}</li>
       ))}
