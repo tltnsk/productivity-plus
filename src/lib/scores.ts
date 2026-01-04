@@ -10,7 +10,7 @@ export const getTaskImportance = (task: Task): number => {
 }
 
 // calculate overall daily productivity
-const calculateProductivityScore = (tasks: Task[]): number => {
+export const calculateProductivityScore = (tasks: Task[]): number => {
     if (tasks.length === 0) return 0;
     let allTaskScore = 0;
     let completedTaskScore = 0;
@@ -24,5 +24,5 @@ const calculateProductivityScore = (tasks: Task[]): number => {
             completedTaskScore += taskWeight;
         } 
     });
-    return completedTaskScore / allTaskScore;
+    return Math.round((completedTaskScore / allTaskScore) * 100);
 }
