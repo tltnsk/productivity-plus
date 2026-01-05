@@ -1,6 +1,10 @@
+"use client";
+
 import { Task } from "@/lib/types";
 import TaskList from "@/components/TaskList";
 import { calculateProductivityScore } from "@/lib/scores";
+import { useState } from "react";
+
 export default function Home() {
   const task1: Task = {
     id: "1",
@@ -18,7 +22,23 @@ export default function Home() {
     completion: "not_completed",
   };
 
-  const tasks: Task[] = [task1, task2];
+  const [tasks, setTasks] = useState<Task[]>([task1, task2]);
+
+  // function to toggle task's completion
+  const toggleTask = (taskId: string) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id === taskId) {
+          return {
+            ...task,
+            completion:
+              task.completion === "completed" ? "not_completed" : "completed",
+          };
+        }
+        return task;
+      });
+    });
+  };
 
   return (
     <main className="p-6 max-w-3xl mx-auto">
