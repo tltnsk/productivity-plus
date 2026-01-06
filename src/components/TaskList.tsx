@@ -10,7 +10,7 @@ type TaskListProps = {
 
 export default function TaskList({ tasks, onToggleTask }: TaskListProps) {
   return (
-    <ul className="space-y-4 mt-5 ml-8">
+    <ul className="space-y-4 mt-5 py-2 px-4">
       {tasks.map((task) => (
         <li key={task.id}>
           <TaskItem task={task} onToggleTask={onToggleTask} />
