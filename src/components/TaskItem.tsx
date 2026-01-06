@@ -9,7 +9,11 @@ export default function TaskItem({ task, onToggleTask }: TaskItemProps) {
   return (
     <div className="flex justify-between space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm border-gray-600 rounded-base shadow-xs">
       <label className="p-1">
-        <p className="w-full text-sm font-medium text-heading mt-4">
+        <p
+          className={`w-full text-sm font-medium mt-4 ${
+            task.completion === "completed" ? "line-through" : ""
+          }`}
+        >
           {task.description}
         </p>
       </label>
