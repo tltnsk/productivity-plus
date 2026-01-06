@@ -5,6 +5,7 @@ import TaskList from "@/components/TaskList";
 import { calculateProductivityScore } from "@/lib/scores";
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import AddTaskFormProps from "@/components/AddTaskForm";
 
 export default function Home() {
   const task1: Task = {
@@ -24,6 +25,7 @@ export default function Home() {
   };
 
   const [tasks, setTasks] = useState<Task[]>([task1, task2]);
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
   // function to toggle task's completion
   const toggleTask = (taskId: string) => {
@@ -49,10 +51,14 @@ export default function Home() {
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Tasks</h2>
         <div className="flex justify-center w-full mt-4">
-          <button className="px-16 py-2 rounded-full border border-gray-600 flex justify-center">
+          <button
+            className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+            onClick={() => setShowAddTaskForm(true)}
+          >
             <Plus size={30} />
           </button>
         </div>
+
         <TaskList tasks={tasks} onToggleTask={toggleTask}></TaskList>
       </section>
 
