@@ -47,7 +47,7 @@ export default function Home() {
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Tasks</h2>
-        <TaskList tasks={tasks}></TaskList>
+        <TaskList tasks={tasks} onToggleTask={toggleTask}></TaskList>
       </section>
 
       <section className="mt-6">
