@@ -5,7 +5,7 @@ import TaskList from "@/components/TaskList";
 import { calculateProductivityScore } from "@/lib/scores";
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import AddTaskFormProps from "@/components/AddTaskForm";
+import AddTaskForm from "@/components/AddTaskForm";
 
 export default function Home() {
   const task1: Task = {
@@ -43,6 +43,22 @@ export default function Home() {
     });
   };
 
+  const addTask = (
+    description: string,
+    difficulty: number,
+    priority: number
+  ) => {
+    const newTask: Task = {
+      id: crypto.randomUUID(),
+      description: description,
+      difficulty: difficulty,
+      priority: priority,
+      completion: "not_completed",
+    };
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setShowAddTaskForm(false);
+  };
+
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold">Today</h1>
@@ -53,11 +69,12 @@ export default function Home() {
         <div className="flex justify-center w-full mt-4">
           <button
             className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
-            onClick={() => setShowAddTaskForm(true)}
+            onClick={() => setShowAddTaskForm((prev) => !prev)}
           >
             <Plus size={30} />
           </button>
         </div>
+        {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
 
         <TaskList tasks={tasks} onToggleTask={toggleTask}></TaskList>
       </section>
