@@ -43,6 +43,7 @@ export default function Home() {
     });
   };
 
+  // function to add task
   const addTask = (
     description: string,
     difficulty: number,
@@ -57,6 +58,11 @@ export default function Home() {
     };
     setTasks((prevTasks) => [...prevTasks, newTask]);
     setShowAddTaskForm(false);
+  };
+
+  // function to delete task
+  const deleteTask = (taskId: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
   return (
@@ -76,7 +82,11 @@ export default function Home() {
         </div>
         {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
 
-        <TaskList tasks={tasks} onToggleTask={toggleTask}></TaskList>
+        <TaskList
+          tasks={tasks}
+          onToggleTask={toggleTask}
+          deleteTask={deleteTask}
+        ></TaskList>
       </section>
 
       <section className="mt-6">

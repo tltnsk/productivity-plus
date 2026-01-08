@@ -1,11 +1,17 @@
 import { Task } from "@/lib/types";
+import { Trash } from "lucide-react";
 
 type TaskItemProps = {
   task: Task;
   onToggleTask: (taskId: string) => void;
+  deleteTask: (taskId: string) => void;
 };
 
-export default function TaskItem({ task, onToggleTask }: TaskItemProps) {
+export default function TaskItem({
+  task,
+  onToggleTask,
+  deleteTask,
+}: TaskItemProps) {
   return (
     <div className="group flex justify-between items-center space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm border-gray-600 rounded-base shadow-xs  hover:bg-gray-100 transition-colors duration-150">
       <label className="p-1">
@@ -25,13 +31,18 @@ export default function TaskItem({ task, onToggleTask }: TaskItemProps) {
           </div>
         </div>
       </label>
-      <input
-        type="checkbox"
-        value=""
-        name="bordered-checkbox"
-        className="w-4 h-4 me-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
-        onChange={() => onToggleTask(task.id)}
-      ></input>
+      <div>
+        <input
+          type="checkbox"
+          value=""
+          name="bordered-checkbox"
+          className="w-4 h-4 me-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
+          onChange={() => onToggleTask(task.id)}
+        ></input>
+        <button>
+          <Trash size={20} onClick={() => deleteTask(task.id)} />
+        </button>
+      </div>
     </div>
   );
 }
