@@ -40,7 +40,12 @@ export default function TaskItem({
           onChange={() => onToggleTask(task.id)}
         ></input>
         <button>
-          <Trash size={20} onClick={() => deleteTask(task.id)} />
+          <Trash
+            className="cursor-pointer mr-2"
+            size={20}
+            strokeWidth={1}
+            onClick={() => deleteTask(task.id)}
+          />
         </button>
       </div>
     </div>
