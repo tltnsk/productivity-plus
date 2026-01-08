@@ -1,6 +1,7 @@
 "use client";
 
 import { Task } from "@/lib/types";
+import { DailySummary } from "@/lib/types";
 import TaskList from "@/components/TaskList";
 import { calculateProductivityScore } from "@/lib/scores";
 import { useState } from "react";
@@ -26,6 +27,12 @@ export default function Home() {
 
   const [tasks, setTasks] = useState<Task[]>([task1, task2]);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
+
+  const todaySummary: DailySummary = {
+    date: new Date().toLocaleDateString(),
+    tasks: tasks,
+    productivityPercentage: calculateProductivityScore(tasks),
+  };
 
   // function to toggle task's completion
   const toggleTask = (taskId: string) => {
@@ -91,6 +98,17 @@ export default function Home() {
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Yearly Progress</h2>
+        <div>
+          <p>
+            <span>Log Date:</span> {todaySummary.date}
+          </p>
+          <p>
+            <span>Productivity:</span> {todaySummary.productivityPercentage}
+          </p>
+          <p>
+            <span>Tasks:</span> {todaySummary.tasks.length}
+          </p>
+        </div>
       </section>
     </main>
   );
