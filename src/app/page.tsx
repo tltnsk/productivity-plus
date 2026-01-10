@@ -109,44 +109,51 @@ export default function Home() {
     setTasks([]);
   };
 
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
   return (
-    <main className="p-6 max-w-3xl mx-auto">
+    <main>
       <Image src="/logo-new.png" alt="Logo" width={150} height={150} priority />
+      <div className="p-6 max-w-3xl mx-auto">
+        <h2 className="text-xl font-semibold">{today}</h2>
+        <p>Today's Productivity: {calculateProductivityScore(tasks)}%</p>
 
-      <h2 className="text-xl font-semibold"> Today</h2>
-      <p>Productivity: {calculateProductivityScore(tasks)}%</p>
+        <section className="mt-6">
+          <h2 className="text-xl font-semibold">Tasks</h2>
+          <div className="flex justify-center w-full mt-4">
+            <button
+              className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+              onClick={() => setShowAddTaskForm((prev) => !prev)}
+            >
+              <Plus size={30} />
+            </button>
+          </div>
+          {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
 
-      <section className="mt-6">
-        <h2 className="text-xl font-semibold">Tasks</h2>
-        <div className="flex justify-center w-full mt-4">
-          <button
-            className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
-            onClick={() => setShowAddTaskForm((prev) => !prev)}
-          >
-            <Plus size={30} />
-          </button>
-        </div>
-        {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
+          <TaskList
+            tasks={tasks}
+            onToggleTask={toggleTask}
+            deleteTask={deleteTask}
+          ></TaskList>
+          <div className="flex justify-center ">
+            <button
+              onClick={finishDay}
+              className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+            >
+              Finish Day
+            </button>
+          </div>
+        </section>
 
-        <TaskList
-          tasks={tasks}
-          onToggleTask={toggleTask}
-          deleteTask={deleteTask}
-        ></TaskList>
-        <div className="flex justify-center ">
-          <button
-            onClick={finishDay}
-            className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
-          >
-            Finish Day
-          </button>
-        </div>
-      </section>
-
-      <section className="mt-6">
-        <h2 className="text-xl font-semibold">Yearly Progress</h2>
-        <ProductivityGrid history={dailyHistory} />
-      </section>
+        <section className="mt-6">
+          <h2 className="text-xl font-semibold">Yearly Progress</h2>
+          <ProductivityGrid history={dailyHistory} />
+        </section>
+      </div>
     </main>
   );
 }

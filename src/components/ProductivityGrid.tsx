@@ -11,7 +11,7 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
     return d.toLocaleDateString().slice(0, 10);
   });
   return (
-    <div className="mt-4 p-4 bg-white border border-slate-200 rounded-xl">
+    <div className="mt-4 p-4  border-slate-200 rounded-xl">
       <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2">
         {days.map((date, index) => {
           // 2. Find if we have history for this specific date
@@ -22,7 +22,7 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
           const score = historyMap[date] || 0;
 
           // 3. Determine color based on score
-          let colorClass = "bg-slate-100"; // Default empty
+          let colorClass = "bg-[#1f2429]"; // Default empty
           if (score > 0) colorClass = "bg-green-100";
           if (score > 30) colorClass = "bg-green-300";
           if (score > 60) colorClass = "bg-green-500";
