@@ -126,7 +126,7 @@ export default function Home() {
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-center w-full mt-4">
             <button
-              className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+              className="w-full py-2  bg-white/1 hover:bg-white/2 transition-colors flex justify-center cursor-pointer items-center"
               onClick={() => setShowAddTaskForm((prev) => !prev)}
             >
               <Plus size={30} />
