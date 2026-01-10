@@ -7,6 +7,7 @@ import { calculateProductivityScore } from "@/lib/scores";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import AddTaskForm from "@/components/AddTaskForm";
+import { useEffect } from "react";
 
 export default function Home() {
   const task1: Task = {
@@ -25,7 +26,17 @@ export default function Home() {
     completion: "not_completed",
   };
 
-  const [tasks, setTasks] = useState<Task[]>([task1, task2]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  useEffect(() => {
+    const saved = localStorage.getItem("tasks");
+
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    } else {
+      setTasks([task1, task2]);
+    }
+  }, []);
+
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
   const todaySummary: DailySummary = {
@@ -72,6 +83,9 @@ export default function Home() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold">Today</h1>
