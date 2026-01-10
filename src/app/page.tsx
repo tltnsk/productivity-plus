@@ -37,9 +37,27 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>([]);
+  useEffect(() => {
+    const saved = localStorage.getItem("dailyHistory");
+
+    if (saved) {
+      setDailyHistory(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("dailyHistory", JSON.stringify(dailyHistory));
+  }, [dailyHistory]);
+
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
   const todaySummary: DailySummary = {
+    id: crypto.randomUUID(),
     date: new Date().toLocaleDateString(),
     tasks: tasks,
     productivityPercentage: calculateProductivityScore(tasks),
@@ -83,9 +101,12 @@ export default function Home() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  // finish day
+  const finishDay = () => {
+    setDailyHistory((prev) => [...prev, todaySummary]);
+    setTasks([]);
+  };
+
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold">Today</h1>
@@ -108,20 +129,24 @@ export default function Home() {
           onToggleTask={toggleTask}
           deleteTask={deleteTask}
         ></TaskList>
+        <div className="flex justify-center ">
+          <button
+            onClick={finishDay}
+            className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+          >
+            Finish Day
+          </button>
+        </div>
       </section>
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Yearly Progress</h2>
         <div>
-          <p>
-            <span>Log Date:</span> {todaySummary.date}
-          </p>
-          <p>
-            <span>Productivity:</span> {todaySummary.productivityPercentage}
-          </p>
-          <p>
-            <span>Tasks:</span> {todaySummary.tasks.length}
-          </p>
+          {dailyHistory.map((day) => (
+            <div key={day.id}>
+              {day.date} — {day.productivityPercentage}%
+            </div>
+          ))}
         </div>
       </section>
     </main>

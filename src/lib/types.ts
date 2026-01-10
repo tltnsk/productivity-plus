@@ -9,6 +9,7 @@ export type Task = {
 };
 
 export type DailySummary = {
+    id: string;
     date: string;
     tasks: Task[];
     productivityPercentage: number;
