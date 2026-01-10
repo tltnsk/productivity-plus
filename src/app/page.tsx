@@ -9,6 +9,7 @@ import { Plus } from "lucide-react";
 import AddTaskForm from "@/components/AddTaskForm";
 import { useEffect } from "react";
 import ProductivityGrid from "@/components/ProductivityGrid";
+import Image from "next/image";
 
 export default function Home() {
   const task1: Task = {
@@ -110,7 +111,9 @@ export default function Home() {
 
   return (
     <main className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold">Today</h1>
+      <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
+
+      <h2 className="text-xl font-semibold"> Today</h2>
       <p>Productivity: {calculateProductivityScore(tasks)}%</p>
 
       <section className="mt-6">
