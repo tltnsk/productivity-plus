@@ -37,9 +37,6 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
           );
         })}
       </div>
-      <p className="text-[10px] text-slate-400 mt-2 text-right">
-        Last 365 days
-      </p>
     </div>
   );
 }
