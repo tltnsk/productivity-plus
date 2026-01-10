@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import AddTaskForm from "@/components/AddTaskForm";
 import { useEffect } from "react";
+import ProductivityGrid from "@/components/ProductivityGrid";
 
 export default function Home() {
   const task1: Task = {
@@ -58,7 +59,7 @@ export default function Home() {
 
   const todaySummary: DailySummary = {
     id: crypto.randomUUID(),
-    date: new Date().toLocaleDateString(),
+    date: new Date().toLocaleDateString().slice(0, 10),
     tasks: tasks,
     productivityPercentage: calculateProductivityScore(tasks),
   };
@@ -141,13 +142,7 @@ export default function Home() {
 
       <section className="mt-6">
         <h2 className="text-xl font-semibold">Yearly Progress</h2>
-        <div>
-          {dailyHistory.map((day) => (
-            <div key={day.id}>
-              {day.date} — {day.productivityPercentage}%
-            </div>
-          ))}
-        </div>
+        <ProductivityGrid history={dailyHistory} />
       </section>
     </main>
   );
