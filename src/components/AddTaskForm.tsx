@@ -24,13 +24,15 @@ export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-4 p-4 border rounded-md space-y-3"
+      className="mt-4 p-4 bg-white/5 rounded-md space-y-3"
     >
       <div>
-        <label className="block text-sm font-medium">Description</label>
+        <label className="block text-gray-400 text-sm font-medium">
+          Description
+        </label>
         <input
           type="text"
-          className="w-full mt-1 p-2 border rounded"
+          className="w-full mt-1 p-2 text-gray-400 border rounded"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -38,32 +40,43 @@ export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
 
       <div className="flex space-x-3">
         <div className="flex-1">
-          <label className="block text-sm font-medium">Difficulty (1–10)</label>
+          <label className="block text-gray-400 text-sm font-medium">
+            Difficulty (1–10)
+          </label>
           <input
             type="number"
             min={1}
             max={10}
-            className="w-full mt-1 p-2 border rounded"
+            className="w-full mt-1 p-2 text-gray-400 border rounded"
             value={difficulty}
             onChange={(e) => setDifficulty(Number(e.target.value))}
           />
         </div>
 
         <div className="flex-1">
-          <label className="block text-sm font-medium">Priority (1–10)</label>
+          <label className="block text-gray-400 text-sm font-medium">
+            Priority (1–10)
+          </label>
           <input
             type="number"
             min={1}
             max={10}
-            className="w-full mt-1 p-2 border rounded"
+            className="w-full mt-1 p-2 border text-gray-400 rounded"
             value={priority}
             onChange={(e) => setPriority(Number(e.target.value))}
           />
         </div>
       </div>
-      <button type="submit" className="w-full py-2 border rounded font-medium">
-        Add task
-      </button>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="py-2 px-10 border border-white/20 rounded-lg font-bold text-white/80 bg-white/5 hover:bg-white/10 transition-all"
+        >
+          <span className="bg-linear-to-r from-blue-400 via to-blue-500 to-blue-700 bg-clip-text text-transparent">
+            Add task
+          </span>
+        </button>
+      </div>
     </form>
   );
 }
