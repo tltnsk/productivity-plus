@@ -13,9 +13,9 @@ export default function TaskItem({
   deleteTask,
 }: TaskItemProps) {
   return (
-    <div className="group flex justify-between items-center space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm border-gray-600 rounded-base shadow-xs  hover:bg-gray-100 transition-colors duration-150">
+    <div className="group flex justify-between items-center space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm border-gray-600 rounded-base shadow-xs transition-colors duration-150">
       <label className="p-1">
-        <div className="w-full text-sm font-medium mt-4">
+        <div className="w-full text-sm font-medium mt-4 text-gray-400">
           <div
             className={`${
               task.completion === "completed"
@@ -36,7 +36,7 @@ export default function TaskItem({
           type="checkbox"
           value=""
           name="bordered-checkbox"
-          className="w-4 h-4 me-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
+          className="w-4 h-4 me-4 border border-default-medium rounded-xs focus:ring-2 focus:ring-brand-soft accent-yellow-400"
           onChange={() => onToggleTask(task.id)}
         ></input>
         <button>

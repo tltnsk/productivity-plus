@@ -118,7 +118,7 @@ export default function Home() {
   return (
     <main>
       <Image src="/logo-new.png" alt="Logo" width={150} height={150} priority />
-      <div className="p-6 max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h2 className="text-xl font-semibold">{today}</h2>
         <p>Today's Productivity: {calculateProductivityScore(tasks)}%</p>
 
@@ -142,10 +142,12 @@ export default function Home() {
           <div className="flex justify-center ">
             <button
               onClick={finishDay}
-              className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+              className="py-2 px-10 border border-white/5 rounded-xl font-bold text-white/80 bg-white/10 hover:bg-white/15 transition-all cursor-pointer"
               disabled={showAddTaskForm}
             >
-              Finish Day
+              <span className="bg-blue-500 bg-clip-text text-transparent">
+                Finish Day
+              </span>
             </button>
           </div>
         </section>
