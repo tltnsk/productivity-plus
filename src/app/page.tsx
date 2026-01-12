@@ -143,6 +143,7 @@ export default function Home() {
             <button
               onClick={finishDay}
               className="px-16 py-2 rounded-full border border-gray-600 flex justify-center cursor-pointer"
+              disabled={showAddTaskForm}
             >
               Finish Day
             </button>
