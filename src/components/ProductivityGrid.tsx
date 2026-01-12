@@ -1,38 +1,63 @@
 import { DailySummary } from "@/lib/types";
+import { useTheme, alpha } from "@mui/material/styles";
 
 type ProductivityGridProps = {
   history: DailySummary[];
 };
 
 export default function ProductivityGrid({ history }: ProductivityGridProps) {
+  const theme = useTheme();
+
+  // Generate 365b days
   const days = Array.from({ length: 365 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (364 - i));
     return d.toLocaleDateString().slice(0, 10);
   });
+
+  // map history for fast lookup
+  const historyMap = Object.fromEntries(
+    history.map((h) => [h.date, h.productivityPercentage])
+  );
+
+  const getCellColor = (score: number) => {
+    const base =
+      theme.palette.mode === "dark"
+        ? theme.palette.primary.main
+        : theme.palette.primary.main;
+
+    if (score === 0) {
+      return theme.palette.mode === "dark"
+        ? alpha(theme.palette.grey[800], 0.3)
+        : alpha(theme.palette.grey[300], 0.3);
+    }
+    if (score <= 30) return alpha(base, 0.3);
+    if (score <= 60) return alpha(base, 0.5);
+    if (score <= 85) return alpha(base, 0.7);
+    return theme.palette.secondary.main;
+  };
+
   return (
-    <div className="mt-4 p-4  border-slate-200 rounded-xl">
+    <div
+      className="mt-4 p-4  border-slate-200 rounded-xl"
+      style={{ backgroundColor: theme.palette.background.paper }}
+    >
       <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2">
         {days.map((date, index) => {
-          // 2. Find if we have history for this specific date
-          const historyMap = Object.fromEntries(
-            history.map((h) => [h.date, h.productivityPercentage])
-          );
-
           const score = historyMap[date] || 0;
-
-          // 3. Determine color based on score
-          let colorClass = "bg-[#1f2429]"; // Default empty
-          if (score > 0) colorClass = "bg-green-100";
-          if (score > 30) colorClass = "bg-green-300";
-          if (score > 60) colorClass = "bg-green-500";
-          if (score > 85) colorClass = "bg-green-700";
+          const color = getCellColor(score);
 
           return (
             <div
               key={date + index}
               title={`${date}: ${score}%`}
-              className={`w-3 h-3 rounded-xs ${colorClass} transition-colors`}
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 2,
+                backgroundColor: color,
+                transition: "background-color 0.2s",
+              }}
             />
           );
         })}
