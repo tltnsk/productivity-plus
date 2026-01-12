@@ -15,17 +15,14 @@ export const createAppTheme = (mode: PaletteMode) =>
           }
         : {
             background: {
-              default: '#fdfcfd', 
+              default: '#ede6ed', 
               paper: '#ffffff',
             },
-            primary: { main: '#ee3f71' },
-            secondary: { main: '#f4b860' },
+            primary: { main: '#f55b87' },
+            secondary: { main: '#f2e0c4' },
           }),
     },
     typography: {
       fontFamily: 'Kode Mono, monospace',
     },
   });
-
-const theme = createAppTheme('dark');
-export default theme;

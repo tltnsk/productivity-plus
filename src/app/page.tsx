@@ -118,7 +118,7 @@ export default function Home() {
   return (
     <main>
       <Image src="/logo-new.png" alt="Logo" width={150} height={150} priority />
-      <div className="max-w-3xl mx-auto">
+      <div className="pl-6 pr-6 max-w-3xl mx-auto">
         <h2 className="text-xl font-semibold">{today}</h2>
         <p>Today's Productivity: {calculateProductivityScore(tasks)}%</p>
 
