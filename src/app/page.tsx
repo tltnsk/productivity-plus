@@ -154,12 +154,18 @@ export default function Home() {
         <section className="mt-6">
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-center w-full mt-4">
-            <button
+            <Button
               className="w-full py-2  bg-white/1 hover:bg-white/2 transition-colors flex justify-center cursor-pointer items-center"
+              sx={{
+                backgroundColor: alpha(theme.palette.background.paper, 0.3),
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                },
+              }}
               onClick={() => setShowAddTaskForm((prev) => !prev)}
             >
               <Plus size={30} />
-            </button>
+            </Button>
           </div>
           {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
 
