@@ -11,6 +11,22 @@ import { useEffect } from "react";
 import ProductivityGrid from "@/components/ProductivityGrid";
 import Image from "next/image";
 import ThemeToggle from "@/components/ThemeToggle";
+import Button from "@mui/material/Button";
+import { useTheme, alpha } from "@mui/material/styles";
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    form: {
+      main: string;
+    };
+  }
+
+  interface PaletteOptions {
+    form?: {
+      main: string;
+    };
+  }
+}
 
 export default function Home() {
   const task1: Task = {
@@ -116,6 +132,8 @@ export default function Home() {
     month: "long",
   });
 
+  const theme = useTheme();
+
   return (
     <main>
       <div className="flex justify-between">
@@ -151,15 +169,30 @@ export default function Home() {
             deleteTask={deleteTask}
           ></TaskList>
           <div className="flex justify-center ">
-            <button
+            <Button
               onClick={finishDay}
-              className="py-2 px-10 border border-white/5 rounded-xl font-bold text-white/80 bg-white/10 hover:bg-white/15 transition-all cursor-pointer"
+              type="submit"
+              sx={{
+                px: 5,
+                py: 1.5,
+                border: `2px solid ${alpha(theme.palette.form.main, 0.5)}`,
+                borderRadius: 3,
+                fontWeight: "bold",
+                textTransform: "none",
+                transition: "all 0.2s",
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.form.main, 0.05),
+                },
+                "& span": {
+                  background: `linear-gradient(to top left, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                },
+              }}
               disabled={showAddTaskForm}
             >
-              <span className="bg-blue-500 bg-clip-text text-transparent">
-                Finish Day
-              </span>
-            </button>
+              <span>Finish Day</span>
+            </Button>
           </div>
         </section>
 

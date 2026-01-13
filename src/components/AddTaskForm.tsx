@@ -132,7 +132,7 @@ export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
             textTransform: "none",
             transition: "all 0.2s",
             "&:hover": {
-              backgroundColor: alpha(theme.palette.common.white, 0.1),
+              backgroundColor: alpha(theme.palette.form.main, 0.1),
             },
             "& span": {
               background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
