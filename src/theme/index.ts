@@ -28,6 +28,10 @@ export const createAppTheme = (mode: PaletteMode) =>
             },
             primary: { main: '#6a82fb' },
             secondary: { main: '#ff63e9' },
+            text: {
+              primary: '#f1f6fa',
+              secondary: '#b5e0eb',
+            }
           }
         : {
             background: {
@@ -36,6 +40,10 @@ export const createAppTheme = (mode: PaletteMode) =>
             },
             primary: { main: '#f55b87' },
             secondary: { main: '#f2e0c4' },
+            text: {
+              primary: '#664848',
+              secondary: '#784859',
+            },
           }),
     },
     typography: {
