@@ -75,11 +75,22 @@ export default function Home() {
 
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
-  const todaySummary: DailySummary = {
-    id: crypto.randomUUID(),
-    date: new Date().toLocaleDateString().slice(0, 10),
-    tasks: tasks,
-    productivityPercentage: calculateProductivityScore(tasks),
+  const todayISO = new Date().toISOString().slice(0, 10);
+
+  const finishDay = () => {
+    const summary: DailySummary = {
+      id: todayISO,
+      date: todayISO,
+      tasks,
+      productivityPercentage: calculateProductivityScore(tasks),
+    };
+
+    setDailyHistory((prev) => {
+      const withoutToday = prev.filter((d) => d.date !== todayISO);
+      return [...withoutToday, summary];
+    });
+
+    setTasks([]);
   };
 
   // function to toggle task's completion
@@ -118,12 +129,6 @@ export default function Home() {
   // function to delete task
   const deleteTask = (taskId: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-  };
-
-  // finish day
-  const finishDay = () => {
-    setDailyHistory((prev) => [...prev, todaySummary]);
-    setTasks([]);
   };
 
   const today = new Date().toLocaleDateString("en-US", {
