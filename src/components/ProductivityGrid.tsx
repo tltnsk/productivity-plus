@@ -1,5 +1,6 @@
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
+import Tooltip from "@mui/material/Tooltip";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -71,17 +72,28 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
           const color = getCellColor(score);
 
           return (
-            <div
+            <Tooltip
               key={date + index}
-              title={`${date}: ${score}%`}
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 2,
-                backgroundColor: color,
-                transition: "background-color 0.2s",
-              }}
-            />
+              title={
+                <div style={{ fontSize: 12 }}>
+                  <div>{date}</div>
+                  <div style={{ fontWeight: 600 }}>{score}%</div>
+                </div>
+              }
+              arrow
+              placement="top"
+            >
+              <div
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 2,
+                  backgroundColor: color,
+                  transition: "background-color 0.2s",
+                  cursor: "pointer",
+                }}
+              />
+            </Tooltip>
           );
         })}
       </div>
