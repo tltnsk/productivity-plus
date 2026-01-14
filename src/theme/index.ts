@@ -9,7 +9,7 @@ export const createAppTheme = (mode: PaletteMode) =>
           root: {
             '&:hover': {
               backgroundColor: 'transparent',
-              color: mode === 'dark' ? '#867ffa' : '#faab34',
+              color: mode === 'dark' ? '#f0d75b' : '#faab34',
               filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25))',
             },
             color: mode === 'dark' ? '#1b3ff2' : '#ee3f71',
