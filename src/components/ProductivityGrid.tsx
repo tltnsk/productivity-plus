@@ -1,6 +1,28 @@
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    grid: {
+      twenty: string;
+      forty: string;
+      sixty: string;
+      eighty: string;
+      hundred: string;
+    };
+  }
+
+  interface PaletteOptions {
+    grid?: {
+      twenty: string;
+      forty: string;
+      sixty: string;
+      eighty: string;
+      hundred: string;
+    };
+  }
+}
+
 type ProductivityGridProps = {
   history: DailySummary[];
 };
@@ -31,15 +53,16 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
         ? alpha(theme.palette.grey[800], 0.3)
         : alpha(theme.palette.grey[300], 0.3);
     }
-    if (score <= 30) return alpha(base, 0.3);
-    if (score <= 60) return alpha(base, 0.5);
-    if (score <= 85) return alpha(base, 0.7);
-    return theme.palette.secondary.main;
+    if (score <= 20) return alpha(theme.palette.grid.twenty, 1);
+    if (score <= 40) return alpha(theme.palette.grid.forty, 1);
+    if (score <= 60) return alpha(theme.palette.grid.sixty, 1);
+    if (score <= 80) return alpha(theme.palette.grid.eighty, 1);
+    return theme.palette.grid.hundred;
   };
 
   return (
     <div
-      className="mt-4 p-4  border-slate-200 rounded-xl"
+      className="mt-4 p-4 rounded-xl"
       style={{ backgroundColor: theme.palette.background.paper }}
     >
       <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2">

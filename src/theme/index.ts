@@ -32,7 +32,14 @@ export const createAppTheme = (mode: PaletteMode) =>
               primary: '#f1f6fa', // light light blue
               secondary: '#515b94', // light cyan
             },
-            form: {main: '#7d878a'}
+            form: {main: '#7d878a'},
+            grid: {
+              twenty: '#84acfa',
+              forty: '#77a3fc',
+              sixty: '#417ffa',
+              eighty: '#1f66f2',
+              hundred: '#0845bf'
+            }
           }
         : {
             background: {
@@ -45,7 +52,14 @@ export const createAppTheme = (mode: PaletteMode) =>
               primary: '#664848', // brown
               secondary: '#784859', // cherry
             },
-            form: {main: '#664848'}
+            form: {main: '#664848'},
+            grid: {
+              twenty: '#ffbff6',
+              forty: '#fc9df0',
+              sixty: '#ff6beb',
+              eighty: '#f540dd',
+              hundred: '#a31a91'
+            }
           }),
     },
     typography: {
