@@ -30,7 +30,7 @@ export const createAppTheme = (mode: PaletteMode) =>
             secondary: { main: '#ff63e9' },
             text: {
               primary: '#f1f6fa', // light light blue
-              secondary: '#b5e0eb', // light cyan
+              secondary: '#515b94', // light cyan
             },
             form: {main: '#7d878a'}
           }

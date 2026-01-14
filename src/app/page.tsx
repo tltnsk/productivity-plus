@@ -155,7 +155,7 @@ export default function Home() {
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-center w-full mt-4">
             <Button
-              className="w-full py-2  bg-white/1 hover:bg-white/2 transition-colors flex justify-center cursor-pointer items-center"
+              className="w-full py-2  transition-colors flex justify-center cursor-pointer items-center"
               sx={{
                 backgroundColor: alpha(theme.palette.background.paper, 0.3),
                 "&:hover": {
@@ -184,6 +184,7 @@ export default function Home() {
                 border: `2px solid ${alpha(theme.palette.form.main, 0.5)}`,
                 borderRadius: 3,
                 fontWeight: "bold",
+                fontSize: 15,
                 textTransform: "none",
                 transition: "all 0.2s",
                 "&:hover": {
