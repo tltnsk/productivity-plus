@@ -75,7 +75,7 @@ export default function Home() {
 
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
-  const todayISO = new Date().toISOString().slice(0, 10);
+  const todayISO = new Date().toLocaleDateString("sv-SE");
 
   const finishDay = () => {
     const summary: DailySummary = {

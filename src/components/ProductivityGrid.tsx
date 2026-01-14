@@ -35,7 +35,7 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
   const days = Array.from({ length: 365 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (364 - i));
-    return d.toLocaleDateString().slice(0, 10);
+    return d.toLocaleDateString("sv-SE");
   });
 
   // map history for fast lookup

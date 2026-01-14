@@ -1,3 +1,9 @@
+/*
+This is a TaskItem component
+Renders an individual task row
+Has tasks completion toggling and deletion of tasks 
+ */
+
 import { Task } from "@/lib/types";
 import { Trash } from "lucide-react";
 import { useTheme, alpha } from "@mui/material/styles";
