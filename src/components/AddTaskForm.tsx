@@ -1,7 +1,17 @@
+/**
+ * AddTaskForm Component
+ *
+ * Used to add a new task.
+ * User enters description, difficulty and priority for each task
+ *
+ * when they are submitted, the values are passed to the parent via onAddTask
+ */
+
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import { useTheme, alpha } from "@mui/material/styles";
 
+// extend MUI theme palette to include a custom "form" color
 declare module "@mui/material/styles" {
   interface Palette {
     form: {
@@ -21,10 +31,15 @@ type AddTaskFormProps = {
 };
 
 export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
+  // local form state
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState<number>(5);
   const [priority, setPriority] = useState<number>(5);
 
+  // handles form submission
+  // prevents page reload, validates input, and calls the parent callback
+
+  // resets form at the end
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
