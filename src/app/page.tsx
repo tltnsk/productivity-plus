@@ -1,3 +1,10 @@
+// main screen of the app
+
+// stores all active tasks and daily productivity historu
+// calculates productivity
+// saves everything to local storage
+// renders grid
+
 "use client";
 
 import { Task } from "@/lib/types";
@@ -28,6 +35,7 @@ declare module "@mui/material/styles" {
   }
 }
 
+// default demo tasks
 export default function Home() {
   const task1: Task = {
     id: "1",
@@ -45,7 +53,10 @@ export default function Home() {
     completion: "not_completed",
   };
 
+  // stores all active tasks
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  // load tasks from storage or use demo tasks if none exist
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
 
@@ -56,11 +67,15 @@ export default function Home() {
     }
   }, []);
 
+  // when tasks change, save them to localStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // store productivity summary for each day
   const [dailyHistory, setDailyHistory] = useState<DailySummary[]>([]);
+
+  // load saved history
   useEffect(() => {
     const saved = localStorage.getItem("dailyHistory");
 
@@ -69,14 +84,19 @@ export default function Home() {
     }
   }, []);
 
+  // save history whenever it changes
   useEffect(() => {
     localStorage.setItem("dailyHistory", JSON.stringify(dailyHistory));
   }, [dailyHistory]);
 
+  // controls when add task form is visible
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
+  // date in YYYY-MM-DD format
   const todayISO = new Date().toLocaleDateString("sv-SE");
 
+  // called when user clicks finish day button
+  // it calculates productivity, saves today into history and clears tasks
   const finishDay = () => {
     const summary: DailySummary = {
       id: todayISO,
@@ -86,6 +106,7 @@ export default function Home() {
     };
 
     setDailyHistory((prev) => {
+      // remove any old entry for today (if user clicks twice)
       const withoutToday = prev.filter((d) => d.date !== todayISO);
       return [...withoutToday, summary];
     });
@@ -131,6 +152,7 @@ export default function Home() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
+  // date shown at the top of the page
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     day: "numeric",
@@ -156,6 +178,7 @@ export default function Home() {
         <h2 className="text-xl font-semibold">{today}</h2>
         <p>Today's Productivity: {calculateProductivityScore(tasks)}%</p>
 
+        {/* task section */}
         <section className="mt-6">
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-center w-full mt-4">
@@ -172,13 +195,18 @@ export default function Home() {
               <Plus size={30} />
             </Button>
           </div>
+
+          {/* add task form */}
           {showAddTaskForm && <AddTaskForm onAddTask={addTask} />}
 
+          {/*task list */}
           <TaskList
             tasks={tasks}
             onToggleTask={toggleTask}
             deleteTask={deleteTask}
           ></TaskList>
+
+          {/*Finish day */}
           <div className="flex justify-center ">
             <Button
               onClick={finishDay}
@@ -208,6 +236,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/**Yearly grid  */}
         <section className="mt-6">
           <h2 className="text-xl font-semibold">Yearly Progress</h2>
           <ProductivityGrid history={dailyHistory} />
