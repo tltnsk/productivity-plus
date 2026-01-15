@@ -20,6 +20,7 @@ import Image from "next/image";
 import ThemeToggle from "@/components/ThemeToggle";
 import Button from "@mui/material/Button";
 import { useTheme, alpha } from "@mui/material/styles";
+import { Footer } from "@/components/Footer";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -241,6 +242,8 @@ export default function Home() {
           <h2 className="text-xl font-semibold">Yearly Progress</h2>
           <ProductivityGrid history={dailyHistory} />
         </section>
+
+        <Footer />
       </div>
     </main>
   );
