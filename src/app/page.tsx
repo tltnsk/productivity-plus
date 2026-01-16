@@ -39,22 +39,6 @@ declare module "@mui/material/styles" {
 
 // default demo tasks
 export default function Home() {
-  const task1: Task = {
-    id: "1",
-    description: "Do homework",
-    difficulty: 5,
-    priority: 5,
-    completion: "not_completed",
-  };
-
-  const task2: Task = {
-    id: "2",
-    description: "Clean House",
-    difficulty: 7,
-    priority: 10,
-    completion: "not_completed",
-  };
-
   // stores all active tasks
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -65,7 +49,7 @@ export default function Home() {
     if (saved) {
       setTasks(JSON.parse(saved));
     } else {
-      setTasks([task1, task2]);
+      setTasks([]);
     }
   }, []);
 
