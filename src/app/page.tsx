@@ -16,8 +16,6 @@ import { Plus } from "lucide-react";
 import AddTaskForm from "@/components/AddTaskForm";
 import { useEffect } from "react";
 import ProductivityGrid from "@/components/ProductivityGrid";
-import Image from "next/image";
-import ThemeToggle from "@/components/ThemeToggle";
 import Button from "@mui/material/Button";
 import { useTheme, alpha } from "@mui/material/styles";
 import { Footer } from "@/components/Footer";
@@ -39,36 +37,24 @@ declare module "@mui/material/styles" {
 
 // default demo tasks
 export default function Home() {
-  // stores all active tasks
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  // load tasks from storage or use demo tasks if none exist
-  useEffect(() => {
+  // initialize tasks from localStorage
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    if (typeof window === "undefined") return [];
     const saved = localStorage.getItem("tasks");
-
-    if (saved) {
-      setTasks(JSON.parse(saved));
-    } else {
-      setTasks([]);
-    }
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // when tasks change, save them to localStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // store productivity summary for each day
-  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>([]);
-
-  // load saved history
-  useEffect(() => {
+  // initialize productivity history from localStorage
+  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>(() => {
+    if (typeof window === "undefined") return [];
     const saved = localStorage.getItem("dailyHistory");
-
-    if (saved) {
-      setDailyHistory(JSON.parse(saved));
-    }
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // save history whenever it changes
   useEffect(() => {
