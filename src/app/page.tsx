@@ -182,6 +182,7 @@ export default function Home() {
             tasks={tasks}
             onToggleTask={toggleTask}
             deleteTask={deleteTask}
+            updateTask={updateTask}
           ></TaskList>
 
           {/*Finish day */}
