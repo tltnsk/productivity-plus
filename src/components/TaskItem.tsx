@@ -7,19 +7,25 @@ Has tasks completion toggling and deletion of tasks
 import { Task } from "@/lib/types";
 import { Trash } from "lucide-react";
 import { useTheme, alpha } from "@mui/material/styles";
+import { useState } from "react";
 
 type TaskItemProps = {
   task: Task;
   onToggleTask: (taskId: string) => void;
   deleteTask: (taskId: string) => void;
+  updateTask: (taskId: string, text: string) => void;
 };
 
 export default function TaskItem({
   task,
   onToggleTask,
   deleteTask,
+  updateTask,
 }: TaskItemProps) {
   const theme = useTheme();
+  const [isEditing, setIsEditing] = useState(false);
+  const [draftText, setDraftText] = useState(task.description);
+
   return (
     <div
       className="group flex justify-between items-center space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm rounded-base shadow-xs transition-colors duration-150"
@@ -39,8 +45,36 @@ export default function TaskItem({
                   : theme.palette.text.secondary,
               transition: "color 0.2s",
             }}
+            // enable text editing on double click
+            onDoubleClick={() => {
+              setDraftText(task.description);
+              setIsEditing(true);
+            }}
           >
-            {task.description}
+            {isEditing ? (
+              <input
+                value={draftText}
+                autoFocus
+                className="border-none outline-none focus:ring-0"
+                onChange={(e) => setDraftText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    const trimmed = draftText.trim();
+                    if (!trimmed) return;
+
+                    updateTask(task.id, draftText);
+                    setIsEditing(false);
+                  }
+
+                  if (e.key === "Escape") {
+                    setDraftText(task.description);
+                    setIsEditing(false);
+                  }
+                }}
+              />
+            ) : (
+              task.description
+            )}
           </div>
           <div className="flex justify-between space-x-2 items-center h-0 overflow-hidden group-hover:h-auto opacity-100 transition-all duration-200">
             <span>Difficulty: {task.difficulty}</span>

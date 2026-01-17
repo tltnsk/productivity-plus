@@ -41,6 +41,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>(() => {
     if (typeof window === "undefined") return [];
     const saved = localStorage.getItem("tasks");
+    // saved tasks are read before render completes
     return saved ? JSON.parse(saved) : [];
   });
 
