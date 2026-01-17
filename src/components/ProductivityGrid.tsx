@@ -3,6 +3,7 @@
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
+import { useEffect, useState } from "react";
 
 // extend MUI theme with custom grid colors for different productivity levels
 declare module "@mui/material/styles" {
@@ -34,6 +35,15 @@ type ProductivityGridProps = {
 export default function ProductivityGrid({ history }: ProductivityGridProps) {
   const theme = useTheme();
 
+  // delay rendering until mounted
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   // Generate 365 days
   // format them as YYYY-MM-DD so they match date format used in DailySummary
 
@@ -47,7 +57,7 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
   // map daily productivity array for fast lookup
   // display only date and percentage
   const historyMap = Object.fromEntries(
-    history.map((h) => [h.date, h.productivityPercentage])
+    history.map((h) => [h.date, h.productivityPercentage]),
   );
 
   // get cell color based on productivity percentage
