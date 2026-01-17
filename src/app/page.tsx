@@ -125,6 +125,21 @@ export default function Home() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
+  // function to edit task
+  const updateTask = (taskId: string, text: string) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id === taskId) {
+          return {
+            ...task,
+            description: text,
+          };
+        }
+        return task;
+      });
+    });
+  };
+
   // date shown at the top of the page
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",

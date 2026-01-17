@@ -55,7 +55,7 @@ export default function TaskItem({
               <input
                 value={draftText}
                 autoFocus
-                className="border-none outline-none focus:ring-0"
+                className="border-none outline-none focus:ring-0 bg-transparent"
                 onChange={(e) => setDraftText(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -73,7 +73,7 @@ export default function TaskItem({
                 }}
               />
             ) : (
-              task.description
+              <span>{task.description}</span>
             )}
           </div>
           <div className="flex justify-between space-x-2 items-center h-0 overflow-hidden group-hover:h-auto opacity-100 transition-all duration-200">
