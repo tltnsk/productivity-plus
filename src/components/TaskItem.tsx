@@ -4,6 +4,8 @@ Renders an individual task row
 Has tasks completion toggling and deletion of tasks 
  */
 
+"use client";
+
 import { Task } from "@/lib/types";
 import { Trash } from "lucide-react";
 import { useTheme, alpha } from "@mui/material/styles";

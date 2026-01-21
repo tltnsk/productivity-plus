@@ -5,6 +5,8 @@
  *   - passes action handlers to individual tasks
  */
 
+"use client";
+
 import { Task } from "@/lib/types";
 import TaskItem from "@/components/TaskItem";
 import { updateTag } from "next/cache";

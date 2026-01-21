@@ -37,30 +37,19 @@ declare module "@mui/material/styles" {
 
 // default demo tasks
 export default function Home() {
-  // initialize tasks from localStorage
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem("tasks");
-    // saved tasks are read before render completes
-    return saved ? JSON.parse(saved) : [];
-  });
+  // tasks
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  // when tasks change, save them to localStorage
+  // productivity history for a day
+  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>([]);
+
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) setTasks(JSON.parse(savedTasks));
 
-  // initialize productivity history from localStorage
-  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem("dailyHistory");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  // save history whenever it changes
-  useEffect(() => {
-    localStorage.setItem("dailyHistory", JSON.stringify(dailyHistory));
-  }, [dailyHistory]);
+    const savedHistory = localStorage.getItem("dailyHistory");
+    if (savedHistory) setDailyHistory(JSON.parse(savedHistory));
+  }, []);
 
   // controls when add task form is visible
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
