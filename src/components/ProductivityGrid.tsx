@@ -1,9 +1,12 @@
 // displays heatmap of daily productivity for the last 365 days
 
+"use client";
+
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 // extend MUI theme with custom grid colors for different productivity levels
 declare module "@mui/material/styles" {
@@ -38,11 +41,24 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
   // delay rendering until mounted
   const [mounted, setMounted] = useState(false);
 
+  // create a ref to the grids container
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+    // console.log(el.scrollWidth); 844
+    // console.log(el.clientWidth); 688
+    // console.log(el.scrollLeft); 0
+
+    // view grid on current days, not at beginning
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    el.scrollLeft = maxScrollLeft;
+  }, []);
 
   // Generate 365 days
   // format them as YYYY-MM-DD so they match date format used in DailySummary
@@ -79,10 +95,16 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
     // container for productivity grid
     <div
       className="mt-4 p-4 rounded-xl"
-      style={{ backgroundColor: theme.palette.background.paper }}
+      style={{
+        backgroundColor: theme.palette.background.paper,
+        opacity: mounted ? 1 : 0,
+      }}
     >
       {/*7 rows for days of week */}
-      <div className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2">
+      <div
+        ref={scrollRef}
+        className="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2"
+      >
         {days.map((date, index) => {
           // get score
           const score = historyMap[date] || 0;
@@ -109,7 +131,6 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
                   height: 12,
                   borderRadius: 2,
                   backgroundColor: color,
-                  transition: "background-color 0.2s",
                   cursor: "pointer",
                 }}
               />
