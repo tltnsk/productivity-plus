@@ -3,7 +3,7 @@
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // extend MUI theme with custom grid colors for different productivity levels
 declare module "@mui/material/styles" {
