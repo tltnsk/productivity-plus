@@ -53,6 +53,7 @@ export default function TaskItem({
               setIsEditing(true);
             }}
           >
+            {/* if user double-clicks -- user is editing  */}
             {isEditing ? (
               <input
                 value={draftText}
@@ -75,6 +76,7 @@ export default function TaskItem({
                 }}
               />
             ) : (
+              // if not editing -- just display description
               <span>{task.description}</span>
             )}
           </div>

@@ -1,5 +1,10 @@
 // displays heatmap of daily productivity for the last 365 days
 
+// Pronlems with rendering
+// difference between server render and first client render
+
+"use client";
+
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
@@ -36,13 +41,16 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
   const theme = useTheme();
 
   // delay rendering until mounted
+  // as serveral things can cause problems, mounted fixes it because:
+  // server renders nothing and client first renders nothing
+  // there's no mismatch to compare
+  // after hydration, react renders the real grid client-side only
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  if (!mounted) return null;
 
   // Generate 365 days
   // format them as YYYY-MM-DD so they match date format used in DailySummary
@@ -51,6 +59,9 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
   const days = Array.from({ length: 365 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (364 - i));
+
+    // time zone is not guaranteed to match:
+    // server might be UTC, client might be local timezone
     return d.toLocaleDateString("sv-SE");
   });
 
