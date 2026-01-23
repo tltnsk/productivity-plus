@@ -1,14 +1,17 @@
 // displays heatmap of daily productivity for the last 365 days
 
-// Pronlems with rendering
-// difference between server render and first client render
+// new Date() + local timezone could be an issues as server timezone is often UTC
+// client could be in any timezone
+
+// around midnight there could be a date mismatch between server and client
+// server renders differnet days[] than client --> hydration missmatch
 
 "use client";
 
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 // extend MUI theme with custom grid colors for different productivity levels
 declare module "@mui/material/styles" {
@@ -40,17 +43,19 @@ type ProductivityGridProps = {
 export default function ProductivityGrid({ history }: ProductivityGridProps) {
   const theme = useTheme();
 
-  // delay rendering until mounted
-  // as serveral things can cause problems, mounted fixes it because:
-  // server renders nothing and client first renders nothing
-  // there's no mismatch to compare
-  // after hydration, react renders the real grid client-side only
-
+  // fix hydration issue
+  // server renders null
+  // first client render is null
+  // real grid renders only after mount -- so there's no mismatch
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   // Generate 365 days
   // format them as YYYY-MM-DD so they match date format used in DailySummary
@@ -114,6 +119,7 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
               placement="top"
             >
               {/*single day cell  */}
+              {/*this shows a hydration error  */}
               <div
                 style={{
                   width: 12,
