@@ -91,6 +91,18 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
     return theme.palette.grid.hundred;
   };
 
+  // function to get total number of fully productive days
+  const getTotalProductiveDays = () => {
+    return history.reduce((total, day) => {
+      if (day.productivityPercentage === 100) {
+        return total + 1;
+      }
+      return total;
+    }, 0);
+  };
+
+  const totalProductiveDays = getTotalProductiveDays();
+
   return (
     // container for productivity grid
     <div
@@ -133,6 +145,10 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
           );
         })}
       </div>
+      <p className="text-[10px] mt-2 ">
+        You have been 100% productive for total of {totalProductiveDays}{" "}
+        {totalProductiveDays === 1 ? "day" : "days"} in the last year.
+      </p>
     </div>
   );
 }
