@@ -8,15 +8,9 @@ export function Footer() {
     <footer className="flex w-full flex-col  items-center justify-center pt-10 gap-x-12">
       <div className="flex flex-row gap-6">
         <a href="https://github.com/tltnsk" target="_blank" rel="Github link">
-          <FaGithub
-            size={20}
-            style={{ color: isDark ? "#1b3ff2" : "#ee3f71" }}
-          />
+          <FaGithub size={20} style={{ color: "#1b3ff2" }} />
         </a>
-        <p style={{ color: isDark ? "#1b3ff2" : "#ee3f71" }}>
-          {" "}
-          {new Date().getFullYear()}
-        </p>
+        <p style={{ color: "#1b3ff2" }}> {new Date().getFullYear()}</p>
       </div>
     </footer>
   );

@@ -9,10 +9,10 @@ export const createAppTheme = (mode: PaletteMode) =>
           root: {
             '&:hover': {
               backgroundColor: 'transparent',
-              color: mode === 'dark' ? '#f0d75b' : '#faab34',
+              color: '#f0d75b',
               filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25))',
             },
-            color: mode === 'dark' ? '#1b3ff2' : '#ee3f71',
+            color: '#1b3ff2',
             transition: 'color 0.2s, filter 0.2s',
           },
         },
@@ -43,22 +43,22 @@ export const createAppTheme = (mode: PaletteMode) =>
           }
         : {
             background: {
-              default: '#ede6ed', 
+              default: '#faf8f5', 
               paper: '#ffffff',
             },
-            primary: { main: '#f55b87' },
-            secondary: { main: '#f2e0c4' },
+            primary: { main: '#6a82fb', light: "#004fb0",  dark: "#04346e"},
+            secondary: { main: '#ff63e9' },
             text: {
               primary: '#664848', // brown
               secondary: '#784859', // cherry
             },
-            form: {main: '#664848'},
+            form: {main: '#7d878a'},
             grid: {
-              twenty: '#ffbff6',
-              forty: '#fc9df0',
-              sixty: '#ff6beb',
-              eighty: '#f540dd',
-              hundred: '#a31a91'
+              twenty: '#d4bebe',
+              forty: '#b89c9c',
+              sixty: '#9c8080',
+              eighty: '#754d4d',
+              hundred: '#331919'
             }
           }),
     },

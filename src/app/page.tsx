@@ -221,6 +221,10 @@ export default function Home() {
           <ProductivityGrid history={dailyHistory} />
         </section>
 
+        <section className="mt-6">
+          <h2 className="text-xl font-semibold">Things on my mind</h2>
+        </section>
+
         <Footer />
       </div>
     </main>

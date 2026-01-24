@@ -10,7 +10,7 @@ import { useThemeMode } from "@/context/ThemeContext";
 export default function ThemeToggle() {
   const { mode, toggle } = useThemeMode();
   return (
-    <IconButton onClick={toggle} color="inherit">
+    <IconButton onClick={toggle}>
       {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
     </IconButton>
   );

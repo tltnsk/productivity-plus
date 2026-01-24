@@ -14,3 +14,9 @@ export type DailySummary = {
     tasks: Task[];
     productivityPercentage: number;
 };
+
+export type ItemOnMind = {
+    id: string;
+    description: string;
+    category: string; 
+}
