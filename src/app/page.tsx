@@ -21,6 +21,8 @@ import { useTheme, alpha } from "@mui/material/styles";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import MindList from "@/components/Mind/MindList";
+import AddItemOnMind from "@/components/Mind/AddItemOnMind";
+import { ItemOnMind } from "@/lib/types";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -41,6 +43,12 @@ export default function Home() {
   // initialize tasks from localStorage
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  // ideas
+  const [ideas, setIdeas] = useState<ItemOnMind[]>([]);
+
+  // ideas on mind
+  const [showMindItems, setShowMindItems] = useState(false);
+
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
     if (saved) setTasks(JSON.parse(saved));
@@ -50,6 +58,17 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  // save ideas on mind to localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("ideas");
+    if (saved) setTasks(JSON.parse(saved));
+  }, []);
+
+  // when tasks change, save them to localStorage
+  useEffect(() => {
+    localStorage.setItem("ideas", JSON.stringify(ideas));
+  }, [ideas]);
 
   // initialize productivity history from localStorage
   const [dailyHistory, setDailyHistory] = useState<DailySummary[]>(() => {
@@ -150,19 +169,15 @@ export default function Home() {
 
   const theme = useTheme();
 
-  // -------- Items on mind demo data -----------
-  const mindItems = [
-    {
-      id: "1",
-      description: "Coffee shop ideas",
-      category: "Business",
-    },
-    {
-      id: "2",
-      description: "Places I want to visit",
-      category: "Personal",
-    },
-  ];
+  // add items on mind
+  const addIdea = (description: string) => {
+    const newIdea: ItemOnMind = {
+      id: crypto.randomUUID(),
+      description: description,
+    };
+    setIdeas((prevIdeas) => [...prevIdeas, newIdea]);
+    setShowMindItems(false);
+  };
 
   return (
     <main>
@@ -238,7 +253,25 @@ export default function Home() {
 
         <section className="mt-6">
           <h2 className="text-xl font-semibold">Things on my mind</h2>
-          <MindList items={mindItems} />
+
+          {/* add a new thought button */}
+          <div className="flex justify-center w-full mt-4">
+            <Button
+              className="w-full py-2  transition-colors flex justify-center cursor-pointer items-center"
+              sx={{
+                backgroundColor: alpha(theme.palette.background.paper, 0.3),
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.background.paper, 0.7),
+                },
+              }}
+              onClick={() => setShowMindItems((prev) => !prev)}
+            >
+              <Plus size={30} />
+            </Button>
+          </div>
+          {showMindItems && <AddItemOnMind onAddItem={addIdea} />}
+
+          <MindList items={ideas} />
         </section>
 
         <Footer />

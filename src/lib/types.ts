@@ -18,5 +18,4 @@ export type DailySummary = {
 export type ItemOnMind = {
     id: string;
     description: string;
-    category: string; 
 }
