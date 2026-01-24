@@ -62,7 +62,7 @@ export default function Home() {
   // save ideas on mind to localStorage
   useEffect(() => {
     const saved = localStorage.getItem("ideas");
-    if (saved) setTasks(JSON.parse(saved));
+    if (saved) setIdeas(JSON.parse(saved));
   }, []);
 
   // when tasks change, save them to localStorage
