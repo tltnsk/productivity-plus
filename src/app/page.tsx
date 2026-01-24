@@ -20,6 +20,7 @@ import Button from "@mui/material/Button";
 import { useTheme, alpha } from "@mui/material/styles";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import MindList from "@/components/Mind/MindList";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -149,6 +150,20 @@ export default function Home() {
 
   const theme = useTheme();
 
+  // -------- Items on mind demo data -----------
+  const mindItems = [
+    {
+      id: "1",
+      description: "Coffee shop ideas",
+      category: "Business",
+    },
+    {
+      id: "2",
+      description: "Places I want to visit",
+      category: "Personal",
+    },
+  ];
+
   return (
     <main>
       <Header />
@@ -223,6 +238,7 @@ export default function Home() {
 
         <section className="mt-6">
           <h2 className="text-xl font-semibold">Things on my mind</h2>
+          <MindList items={mindItems} />
         </section>
 
         <Footer />
