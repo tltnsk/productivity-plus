@@ -46,7 +46,7 @@ export const createAppTheme = (mode: PaletteMode) =>
               default: '#faf8f5', 
               paper: '#ffffff',
             },
-            primary: { main: '#6a82fb', light: "#004fb0",  dark: "#04346e"},
+            primary: { main: '#9c8080', light: "#d4bebe",  dark: "#331919"},
             secondary: { main: '#ff63e9' },
             text: {
               primary: '#664848', // brown

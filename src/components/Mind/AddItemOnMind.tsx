@@ -67,13 +67,13 @@ export default function AddItemOnMind({ onAddItem }: AddItemOnMindProps) {
               backgroundColor: alpha(theme.palette.form.main, 0.1),
             },
             "& span": {
-              background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+              background: theme.palette.primary.main,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             },
           }}
         >
-          Add
+          <span> Add</span>
         </Button>
       </div>
     </form>
