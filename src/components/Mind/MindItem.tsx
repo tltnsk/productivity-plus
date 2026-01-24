@@ -6,9 +6,10 @@ import { X } from "lucide-react";
 
 type MindItemProps = {
   item: ItemOnMind;
+  deleteIdea: (itemId: string) => void;
 };
 
-export default function MindItem({ item }: MindItemProps) {
+export default function MindItem({ item, deleteIdea }: MindItemProps) {
   const theme = useTheme();
   return (
     <div
@@ -20,7 +21,11 @@ export default function MindItem({ item }: MindItemProps) {
     >
       <div className="font-black ">{item.description}</div>
 
-      <X className="cursor-pointer" size={20} />
+      <X
+        className="cursor-pointer"
+        size={20}
+        onClick={() => deleteIdea(item.id)}
+      />
     </div>
   );
 }

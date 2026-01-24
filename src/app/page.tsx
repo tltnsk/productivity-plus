@@ -179,6 +179,11 @@ export default function Home() {
     setShowMindItems(false);
   };
 
+  // delete idea
+  const deleteIdea = (ideaId: string) => {
+    setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+  };
+
   return (
     <main>
       <Header />
@@ -271,7 +276,7 @@ export default function Home() {
           </div>
           {showMindItems && <AddItemOnMind onAddItem={addIdea} />}
 
-          <MindList items={ideas} />
+          <MindList items={ideas} deleteIdea={deleteIdea} />
         </section>
 
         <Footer />
