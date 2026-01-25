@@ -21,7 +21,7 @@ export default function MindItem({
   const [draftText, setDraftText] = useState(item.description);
   return (
     <div
-      className="flex justify-between items-center space-x-3.5 border rounded-sm rounded-base shadow-xs bg-neutral-primary-soft transition-colors duration-150 p-4"
+      className="flex items-center gap-2 border rounded-sm shadow-xs p-4"
       style={{
         backgroundColor: alpha(theme.palette.background.paper, 0.3),
         borderColor: alpha(theme.palette.text.secondary, 0.2),
@@ -31,32 +31,34 @@ export default function MindItem({
         setIsEditing(true);
       }}
     >
-      {isEditing ? (
-        <input
-          value={draftText}
-          autoFocus
-          onChange={(e) => setDraftText(e.target.value)}
-          className="w-full border-none outline-none focus:ring-0 bg-transparent font-black"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              if (updateIdea) {
-                updateIdea(item.id, draftText);
+      <div className="flex-1 min-w-0">
+        {isEditing ? (
+          <input
+            value={draftText}
+            autoFocus
+            onChange={(e) => setDraftText(e.target.value)}
+            className="w-full border-none outline-none focus:ring-0 bg-transparent font-black"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                if (updateIdea) {
+                  updateIdea(item.id, draftText);
+                }
+                setIsEditing(false);
               }
-              setIsEditing(false);
-            }
 
-            if (e.key === "Escape") {
-              setDraftText(item.description);
-              setIsEditing(false);
-            }
-          }}
-        />
-      ) : (
-        <span className="font-black ">{item.description}</span>
-      )}
+              if (e.key === "Escape") {
+                setDraftText(item.description);
+                setIsEditing(false);
+              }
+            }}
+          />
+        ) : (
+          <span className="font-black">{item.description}</span>
+        )}
+      </div>
 
       <X
-        className="cursor-pointer"
+        className="cursor-pointer shrink-0"
         size={20}
         onClick={() => deleteIdea(item.id)}
       />
