@@ -184,6 +184,21 @@ export default function Home() {
     setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
   };
 
+  // update idea
+  const updateIdea = (ideaId: string, text: string) => {
+    setIdeas((prevIdeas) => {
+      return prevIdeas.map((idea) => {
+        if (idea.id === ideaId) {
+          return {
+            ...idea,
+            description: text,
+          };
+        }
+        return idea;
+      });
+    });
+  };
+
   return (
     <main>
       <Header />
@@ -276,7 +291,11 @@ export default function Home() {
           </div>
           {showMindItems && <AddItemOnMind onAddItem={addIdea} />}
 
-          <MindList items={ideas} deleteIdea={deleteIdea} />
+          <MindList
+            items={ideas}
+            deleteIdea={deleteIdea}
+            updateIdea={updateIdea}
+          />
         </section>
 
         <Footer />

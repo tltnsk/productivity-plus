@@ -5,15 +5,24 @@ import MindItem from "@/components/Mind/MindItem";
 type MindListProps = {
   items: ItemOnMind[];
   deleteIdea: (itemId: string) => void;
+  updateIdea: (itemId: string, text: string) => void;
 };
 
-export default function MindList({ items, deleteIdea }: MindListProps) {
+export default function MindList({
+  items,
+  deleteIdea,
+  updateIdea,
+}: MindListProps) {
   return (
     <ul className="space-y-4 mt-5 py-2 px-4">
       {items.map((item) => (
         // unique key to distinguish each item
         <li key={item.id}>
-          <MindItem item={item} deleteIdea={deleteIdea} />
+          <MindItem
+            item={item}
+            deleteIdea={deleteIdea}
+            updateIdea={updateIdea}
+          />
         </li>
       ))}
     </ul>
