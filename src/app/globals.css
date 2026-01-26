@@ -13,10 +13,8 @@
 }
 
 body {
-  background-image: linear-gradient(
-      rgba(128, 128, 128, 0.15) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(rgba(128, 128, 128, 0.15) 1px, transparent 1px),
     linear-gradient(90deg, rgba(128, 128, 128, 0.15) 1px, transparent 1px);
   background-size: 40px 40px;
   background-attachment: fixed;

@@ -1,22 +1,31 @@
 "use client";
+import { useEffect, useState } from "react";
 
+import { useParams } from "next/navigation";
 import { ItemOnMind } from "@/lib/types";
-import { useState } from "react";
 
 export default function MindPage() {
-  const getIdeaFromUrl = () => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    return id;
-  };
+  const { id } = useParams();
 
-  const ideaId = getIdeaFromUrl();
+  const [ideas, setIdeas] = useState<ItemOnMind | null>(null);
+
+  useEffect(() => {
+    // fetch ideas from local storage
+    const storedIdeas = localStorage.getItem("ideas");
+    if (storedIdeas) {
+      const allIdeas: ItemOnMind[] = JSON.parse(storedIdeas);
+      const currentIdea = allIdeas.find((idea) => idea.id === id);
+      setIdeas(currentIdea || null);
+    }
+  }, []);
+
+  if (!ideas) {
+    return <p>Idea not found.</p>;
+  }
+
   return (
-    <>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Mind Page</h1>
-        <p className="mt-2">This is the mind page with # parameter.</p>
-      </div>
-    </>
+    <div className="p-8">
+      <h1 className="mt-2">{ideas.description}</h1>
+    </div>
   );
 }

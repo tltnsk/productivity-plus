@@ -1,6 +1,7 @@
 "use client";
 import { ItemOnMind } from "@/lib/types";
 import MindItem from "@/components/Mind/MindItem";
+import Link from "next/link";
 
 type MindListProps = {
   items: ItemOnMind[];
@@ -16,13 +17,14 @@ export default function MindList({
   return (
     <ul className="space-y-4 mt-5 py-2 px-4">
       {items.map((item) => (
-        // unique key to distinguish each item
         <li key={item.id}>
-          <MindItem
-            item={item}
-            deleteIdea={deleteIdea}
-            updateIdea={updateIdea}
-          />
+          <Link href={`/mind/${item.id}`}>
+            <MindItem
+              item={item}
+              deleteIdea={deleteIdea}
+              updateIdea={updateIdea}
+            />
+          </Link>
         </li>
       ))}
     </ul>
