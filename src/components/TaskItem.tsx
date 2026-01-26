@@ -89,8 +89,7 @@ export default function TaskItem({
       <div>
         <input
           type="checkbox"
-          value=""
-          name="bordered-checkbox"
+          checked={task.completion === "completed"}
           className="w-4 h-4 me-4 border border-default-medium rounded-xs focus:ring-2 focus:ring-brand-soft"
           style={{
             accentColor: alpha(theme.palette.text.secondary, 1),
