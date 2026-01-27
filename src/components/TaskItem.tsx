@@ -80,9 +80,19 @@ export default function TaskItem({
               <span>{task.description}</span>
             )}
           </div>
-          <div className="flex justify-between space-x-2 items-center h-0 overflow-hidden group-hover:h-auto opacity-100 transition-all duration-200">
-            <span>Difficulty: {task.difficulty}</span>
-            <span>Priority: {task.priority}</span>
+          <div className="flex space-x-2 items-center h-0 overflow-hidden group-hover:h-auto opacity-100 transition-all duration-200">
+            <span>
+              Difficulty:{" "}
+              <strong style={{ color: theme.palette.primary.main }}>
+                {task.difficulty}
+              </strong>
+            </span>
+            <span>
+              Priority:{" "}
+              <strong style={{ color: theme.palette.primary.main }}>
+                {task.priority}
+              </strong>
+            </span>
           </div>
         </div>
       </label>

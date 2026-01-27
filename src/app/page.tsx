@@ -38,27 +38,30 @@ declare module "@mui/material/styles" {
   }
 }
 
-// default demo tasks
 export default function Home() {
-  // initialize tasks from localStorage
+  // Tasks
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isTasksLoaded, setIsTasksLoaded] = useState(false);
+
+  // Load tasks from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+      setTasks(JSON.parse(saved)); // convert JSON string to JS array and store it in state
+    }
+    setIsTasksLoaded(true);
+  }, []);
+
+  // when tasks change, save them to localStorage (only after initial load)
+  useEffect(() => {
+    if (isTasksLoaded) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks, isTasksLoaded]);
 
   // ideas
   const [ideas, setIdeas] = useState<ItemOnMind[]>([]);
   const [isIdeasLoaded, setIsIdeasLoaded] = useState(false);
-
-  // ideas on mind
-  const [showMindItems, setShowMindItems] = useState(false);
-
-  // Load tasks from localStorage on mount (client-side only)
-  useEffect(() => {
-    const saved = localStorage.getItem("tasks");
-    if (saved) {
-      setTasks(JSON.parse(saved));
-    }
-    setIsTasksLoaded(true);
-  }, []);
 
   // Load ideas from localStorage on mount (client-side only)
   useEffect(() => {
@@ -69,13 +72,6 @@ export default function Home() {
     setIsIdeasLoaded(true);
   }, []);
 
-  // when tasks change, save them to localStorage (only after initial load)
-  useEffect(() => {
-    if (isTasksLoaded) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-  }, [tasks, isTasksLoaded]);
-
   // when ideas change, save them to localStorage (only after initial load)
   useEffect(() => {
     if (isIdeasLoaded) {
@@ -83,20 +79,32 @@ export default function Home() {
     }
   }, [ideas, isIdeasLoaded]);
 
-  // initialize productivity history from localStorage
-  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem("dailyHistory");
-    return saved ? JSON.parse(saved) : [];
-  });
+  // Daily history
+  const [dailyHistory, setDailyHistory] = useState<DailySummary[]>([]);
+  const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
 
-  // save history whenever it changes
+  // load daily history
   useEffect(() => {
-    localStorage.setItem("dailyHistory", JSON.stringify(dailyHistory));
-  }, [dailyHistory]);
+    const saved = localStorage.getItem("dailyHistory");
+    if (saved) {
+      setDailyHistory(JSON.parse(saved));
+    }
+    setIsHistoryLoaded(true);
+  }, []);
 
+  // save daily history to local storage
+  useEffect(() => {
+    if (isHistoryLoaded) {
+      localStorage.setItem("dailyHistory", JSON.stringify(dailyHistory));
+    }
+  }, [dailyHistory, isHistoryLoaded]);
+
+  // FORMS
   // controls when add task form is visible
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
+
+  // Controls when ideas on mind form is visible
+  const [showMindItemsForm, setShowMindItemsForm] = useState(false);
 
   // date in YYYY-MM-DD format
   const todayISO = new Date().toLocaleDateString("sv-SE");
@@ -189,7 +197,7 @@ export default function Home() {
       description: description,
     };
     setIdeas((prevIdeas) => [...prevIdeas, newIdea]);
-    setShowMindItems(false);
+    setShowMindItemsForm(false);
   };
 
   // delete idea
@@ -297,12 +305,12 @@ export default function Home() {
                   backgroundColor: alpha(theme.palette.background.paper, 0.7),
                 },
               }}
-              onClick={() => setShowMindItems((prev) => !prev)}
+              onClick={() => setShowMindItemsForm((prev) => !prev)}
             >
               <Plus size={30} />
             </Button>
           </div>
-          {showMindItems && <AddItemOnMind onAddItem={addIdea} />}
+          {showMindItemsForm && <AddItemOnMind onAddItem={addIdea} />}
 
           <MindList
             items={ideas}
