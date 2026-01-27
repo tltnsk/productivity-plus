@@ -41,29 +41,26 @@ declare module "@mui/material/styles" {
 // default demo tasks
 export default function Home() {
   // initialize tasks from localStorage
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    if (typeof window === "undefined") return [];
+    const saved = localStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // ideas
-  const [ideas, setIdeas] = useState<ItemOnMind[]>([]);
+  const [ideas, setIdeas] = useState<ItemOnMind[]>(() => {
+    if (typeof window === "undefined") return [];
+    const saved = localStorage.getItem("ideas");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // ideas on mind
   const [showMindItems, setShowMindItems] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("tasks");
-    if (saved) setTasks(JSON.parse(saved));
-  }, []);
 
   // when tasks change, save them to localStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
-
-  // save ideas on mind to localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("ideas");
-    if (saved) setIdeas(JSON.parse(saved));
-  }, []);
 
   // when tasks change, save them to localStorage
   useEffect(() => {
