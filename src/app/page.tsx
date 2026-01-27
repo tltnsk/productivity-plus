@@ -41,31 +41,47 @@ declare module "@mui/material/styles" {
 // default demo tasks
 export default function Home() {
   // initialize tasks from localStorage
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isTasksLoaded, setIsTasksLoaded] = useState(false);
 
   // ideas
-  const [ideas, setIdeas] = useState<ItemOnMind[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem("ideas");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [ideas, setIdeas] = useState<ItemOnMind[]>([]);
+  const [isIdeasLoaded, setIsIdeasLoaded] = useState(false);
 
   // ideas on mind
   const [showMindItems, setShowMindItems] = useState(false);
 
-  // when tasks change, save them to localStorage
+  // Load tasks from localStorage on mount (client-side only)
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    const saved = localStorage.getItem("tasks");
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    }
+    setIsTasksLoaded(true);
+  }, []);
 
-  // when tasks change, save them to localStorage
+  // Load ideas from localStorage on mount (client-side only)
   useEffect(() => {
-    localStorage.setItem("ideas", JSON.stringify(ideas));
-  }, [ideas]);
+    const saved = localStorage.getItem("ideas");
+    if (saved) {
+      setIdeas(JSON.parse(saved));
+    }
+    setIsIdeasLoaded(true);
+  }, []);
+
+  // when tasks change, save them to localStorage (only after initial load)
+  useEffect(() => {
+    if (isTasksLoaded) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks, isTasksLoaded]);
+
+  // when ideas change, save them to localStorage (only after initial load)
+  useEffect(() => {
+    if (isIdeasLoaded) {
+      localStorage.setItem("ideas", JSON.stringify(ideas));
+    }
+  }, [ideas, isIdeasLoaded]);
 
   // initialize productivity history from localStorage
   const [dailyHistory, setDailyHistory] = useState<DailySummary[]>(() => {
