@@ -195,6 +195,7 @@ export default function Home() {
     const newIdea: ItemOnMind = {
       id: crypto.randomUUID(),
       description: description,
+      blocks: [],
     };
     setIdeas((prevIdeas) => [...prevIdeas, newIdea]);
     setShowMindItemsForm(false);

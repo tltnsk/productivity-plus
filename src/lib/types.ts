@@ -15,7 +15,13 @@ export type DailySummary = {
     productivityPercentage: number;
 };
 
+export type ContentBlock = {
+    type: "text";
+    content: string;
+};
+
 export type ItemOnMind = {
     id: string;
     description: string;
+    blocks: ContentBlock[];
 }

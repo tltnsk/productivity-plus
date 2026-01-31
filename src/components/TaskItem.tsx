@@ -96,7 +96,7 @@ export default function TaskItem({
           </div>
         </div>
       </label>
-      <div>
+      <div className="group flex justify-between items-center">
         <input
           type="checkbox"
           checked={task.completion === "completed"}
