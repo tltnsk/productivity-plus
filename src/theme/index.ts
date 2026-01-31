@@ -10,7 +10,6 @@ export const createAppTheme = (mode: PaletteMode) =>
             '&:hover': {
               backgroundColor: 'transparent',
               color: '#f0d75b',
-              filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25))',
             },
             color: '#1b3ff2',
             transition: 'color 0.2s, filter 0.2s',
