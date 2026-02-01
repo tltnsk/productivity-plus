@@ -9,7 +9,6 @@
 
 import { Task } from "@/lib/types";
 import TaskItem from "@/components/TaskItem";
-import { updateTag } from "next/cache";
 
 // Accept Task[] as props
 // Render task description in a list

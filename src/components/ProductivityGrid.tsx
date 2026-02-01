@@ -11,7 +11,7 @@
 import { DailySummary } from "@/lib/types";
 import { useTheme, alpha } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // extend MUI theme with custom grid colors for different productivity levels
 declare module "@mui/material/styles" {
@@ -53,28 +53,27 @@ export default function ProductivityGrid({ history }: ProductivityGridProps) {
     setMounted(true);
   }, []);
 
+  // Generate 365 days (memoized to avoid recomputing on every parent re-render)
+  const days = useMemo(() => {
+    return Array.from({ length: 365 }, (_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (364 - i));
+      return d.toLocaleDateString("sv-SE");
+    });
+  }, []);
+
+  // map daily productivity array for fast lookup (memoized per history)
+  const historyMap = useMemo(
+    () =>
+      Object.fromEntries(
+        history.map((h) => [h.date, h.productivityPercentage]),
+      ),
+    [history],
+  );
+
   if (!mounted) {
     return null;
   }
-
-  // Generate 365 days
-  // format them as YYYY-MM-DD so they match date format used in DailySummary
-
-  // _,i -> value, index. in this case initially we don't have a value
-  const days = Array.from({ length: 365 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (364 - i));
-
-    // time zone is not guaranteed to match:
-    // server might be UTC, client might be local timezone
-    return d.toLocaleDateString("sv-SE");
-  });
-
-  // map daily productivity array for fast lookup
-  // display only date and percentage
-  const historyMap = Object.fromEntries(
-    history.map((h) => [h.date, h.productivityPercentage]),
-  );
 
   // get cell color based on productivity percentage
   const getCellColor = (score: number) => {

@@ -5,7 +5,7 @@
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createAppTheme } from "@/theme/index";
 import { PaletteMode } from "@mui/material";
 import { ThemeModeContext } from "./ThemeContext";
@@ -28,16 +28,20 @@ export default function ThemeRegistry({
   const theme = useMemo(() => createAppTheme(mode), [mode]);
 
   // switch between light and dark mode
-  // save new value in localStorage
-  const toggle = () => {
-    const next = mode === "dark" ? "light" : "dark";
-    setMode(next);
-    localStorage.setItem("theme", next);
-  };
+  // save new value in localStorage (stable reference to avoid context consumer re-renders)
+  const toggle = useCallback(() => {
+    setMode((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      return next;
+    });
+  }, []);
+
+  const contextValue = useMemo(() => ({ mode, toggle }), [mode, toggle]);
 
   return (
     // theme mode and toggle function for the entire app
-    <ThemeModeContext.Provider value={{ mode, toggle }}>
+    <ThemeModeContext.Provider value={contextValue}>
       <ThemeProvider theme={theme}>
         {/** set style based on theme  */}
         <CssBaseline />
