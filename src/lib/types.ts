@@ -16,6 +16,7 @@ export type DailySummary = {
 };
 
 export type ContentBlock = {
+    id: string;
     type: "text";
     content: string;
 };

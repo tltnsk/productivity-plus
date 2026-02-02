@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
 import { ItemOnMind } from "@/lib/types";
+import ExtendThought from "@/components/Mind/ExtendThought";
 
 export default function MindPage() {
   const { id } = useParams();
@@ -38,7 +39,10 @@ export default function MindPage() {
     const blocks = idea.blocks ?? [];
     const updatedIdea: ItemOnMind = {
       ...idea,
-      blocks: [...blocks, { type: "text", content: input }],
+      blocks: [
+        ...blocks,
+        { id: crypto.randomUUID(), type: "text", content: input },
+      ],
     };
 
     // update local state
@@ -76,9 +80,15 @@ export default function MindPage() {
       />
 
       {/* render existing sub-ideas / thoughts */}
-      {(idea.blocks ?? []).map((block, index) => {
+      {(idea.blocks ?? []).map((block) => {
         if (block.type === "text") {
-          return <p key={index}>{block.content}</p>;
+          return (
+            <ExtendThought
+              key={block.id}
+              id={block.id}
+              content={block.content}
+            />
+          );
         }
         return null;
       })}
