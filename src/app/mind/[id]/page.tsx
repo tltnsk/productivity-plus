@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
 import { ItemOnMind } from "@/lib/types";
-import ExtendThought from "@/components/Mind/ExtendThought";
+import ThoughtList from "@/components/Mind/ThoughtsList";
 
 export default function MindPage() {
   const { id } = useParams();
@@ -22,9 +22,14 @@ export default function MindPage() {
       return;
     }
     // Normalize: ensure blocks exists (for ideas created before blocks were added)
+    const normalizedBlocks = (found.blocks ?? []).map((block) => ({
+      ...block,
+      id: block.id ?? crypto.randomUUID(),
+    }));
+
     const currentIdea: ItemOnMind = {
       ...found,
-      blocks: found.blocks ?? [],
+      blocks: normalizedBlocks,
     };
     setIdea(currentIdea);
   }, [id]);
@@ -80,18 +85,7 @@ export default function MindPage() {
       />
 
       {/* render existing sub-ideas / thoughts */}
-      {(idea.blocks ?? []).map((block) => {
-        if (block.type === "text") {
-          return (
-            <ExtendThought
-              key={block.id}
-              id={block.id}
-              content={block.content}
-            />
-          );
-        }
-        return null;
-      })}
+      <ThoughtList thoughts={idea.blocks ?? []} />
     </div>
   );
 }
