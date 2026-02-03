@@ -5,13 +5,7 @@ import Image from "next/image";
 export function Header() {
   return (
     <div className="flex justify-between">
-      <Image
-        src="/changed-logo.png"
-        alt="Logo"
-        width={150}
-        height={150}
-        priority
-      />
+      <Image src="/logo.png" alt="Logo" width={100} height={100} priority />
       <ThemeToggle />
     </div>
   );

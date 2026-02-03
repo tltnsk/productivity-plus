@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { ItemOnMind } from "@/lib/types";
 import ThoughtList from "@/components/Mind/ThoughtsList";
 
+import { Header } from "@/components/Header";
+
 export default function MindPage() {
   const { id } = useParams();
 
@@ -67,25 +69,29 @@ export default function MindPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="mt-2">{idea.description}</h1>
+    <div>
+      <Header />
 
-      {/* add new text */}
-      <input
-        type="text"
-        value={input}
-        placeholder="Enter thoughts..."
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            addTextBlock();
-          }
-        }}
-        className="mt-4 mb-8 w-full focus:border-transparent"
-      />
+      <div className="p-8">
+        <h1 className="mt-2">{idea.description}</h1>
 
-      {/* render existing sub-ideas / thoughts */}
-      <ThoughtList thoughts={idea.blocks ?? []} />
+        {/* add new text */}
+        <input
+          type="text"
+          value={input}
+          placeholder="Enter thoughts..."
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              addTextBlock();
+            }
+          }}
+          className="mt-4 mb-8 w-full focus:border-transparent"
+        />
+
+        {/* render existing sub-ideas / thoughts */}
+        <ThoughtList thoughts={idea.blocks ?? []} />
+      </div>
     </div>
   );
 }
