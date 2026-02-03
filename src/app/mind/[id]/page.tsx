@@ -81,7 +81,7 @@ export default function MindPage() {
             addTextBlock();
           }
         }}
-        className="mt-4 mb-8"
+        className="mt-4 mb-8 w-full focus:border-transparent"
       />
 
       {/* render existing sub-ideas / thoughts */}
