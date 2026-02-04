@@ -4,15 +4,23 @@ import ExtendThought from "./ExtendThought";
 
 type ThoughtListProps = {
   thoughts: ContentBlock[];
+  deleteThought: (thoughtId: string) => void;
 };
 
-export default function ThoughtList({ thoughts }: ThoughtListProps) {
+export default function ThoughtList({
+  thoughts,
+  deleteThought,
+}: ThoughtListProps) {
   return (
     <ul className="mx-auto grid w-full max-w-6xl gap-4 mt-5 py-2 px-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
       {thoughts.map((thought) => (
         <li key={thought.id} className="w-full">
           <div className="flex flex-row">
-            <ExtendThought id={thought.id} content={thought.content} />
+            <ExtendThought
+              id={thought.id}
+              content={thought.content}
+              deleteThought={deleteThought}
+            />
           </div>
         </li>
       ))}

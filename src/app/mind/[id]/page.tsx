@@ -13,6 +13,32 @@ export default function MindPage() {
   const [idea, setIdea] = useState<ItemOnMind | null>(null);
   const [input, setInput] = useState("");
 
+  const deleteThought = (thoughtId: string) => {
+    if (!idea) return;
+
+    const updatedBlocks = (idea.blocks ?? []).filter(
+      (thought) => thought.id !== thoughtId,
+    );
+    const updatedIdea: ItemOnMind = {
+      ...idea,
+      blocks: updatedBlocks,
+    };
+
+    // update local state
+    setIdea(updatedIdea);
+
+    // update localStorage
+    const storedIdeas = localStorage.getItem("ideas");
+    if (!storedIdeas) return;
+
+    const allIdeas: ItemOnMind[] = JSON.parse(storedIdeas);
+    const updatedIdeas = allIdeas.map((i) =>
+      i.id === idea.id ? updatedIdea : i,
+    );
+
+    localStorage.setItem("ideas", JSON.stringify(updatedIdeas));
+  };
+
   useEffect(() => {
     const storedIdeas = localStorage.getItem("ideas");
     if (!storedIdeas || !id) return;
@@ -73,7 +99,7 @@ export default function MindPage() {
       <Header />
 
       <div className="p-8">
-        <h1 className="mt-2">{idea.description}</h1>
+        <h1 className="mt-2 text-3xl">{idea.description}</h1>
 
         {/* add new text */}
         <input
@@ -90,7 +116,10 @@ export default function MindPage() {
         />
 
         {/* render existing sub-ideas / thoughts */}
-        <ThoughtList thoughts={idea.blocks ?? []} />
+        <ThoughtList
+          thoughts={idea.blocks ?? []}
+          deleteThought={deleteThought}
+        />
       </div>
     </div>
   );
