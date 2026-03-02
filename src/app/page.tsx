@@ -265,7 +265,7 @@ export default function Home() {
               sx={{
                 px: 5,
                 py: 1.5,
-                border: `2px solid ${alpha(theme.palette.form.main, 0.5)}`,
+                border: `2px solid ${alpha(theme.palette.primary.main, 0.5)}`,
                 borderRadius: 3,
                 fontWeight: "bold",
                 fontSize: 15,
@@ -275,7 +275,7 @@ export default function Home() {
                   backgroundColor: alpha(theme.palette.form.main, 0.05),
                 },
                 "& span": {
-                  background: `linear-gradient(to top left, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+                  background: theme.palette.primary.main,
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 },

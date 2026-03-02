@@ -142,7 +142,7 @@ export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
             px: 5,
             borderRadius: 2,
             fontWeight: "bold",
-            border: `1px solid ${alpha(theme.palette.form.main, 0.6)}`,
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.6)}`,
             color: alpha(theme.palette.common.white, 0.8),
             textTransform: "none",
             transition: "all 0.2s",
@@ -150,7 +150,7 @@ export default function AddTaskForm({ onAddTask }: AddTaskFormProps) {
               backgroundColor: alpha(theme.palette.form.main, 0.1),
             },
             "& span": {
-              background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+              background: theme.palette.primary.main,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             },

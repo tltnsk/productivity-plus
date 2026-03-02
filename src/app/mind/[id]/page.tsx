@@ -31,7 +31,7 @@ export default function MindPage() {
     const storedIdeas = localStorage.getItem("ideas");
     if (!storedIdeas) return;
 
-    const allIdeas: ItemOnMind[] = JSON.parse(storedIdeas);
+    const allIdeas: ItemOnMind[] = JSON.parse(storedIdeas); 
     const updatedIdeas = allIdeas.map((i) =>
       i.id === idea.id ? updatedIdea : i,
     );
@@ -121,6 +121,6 @@ export default function MindPage() {
           deleteThought={deleteThought}
         />
       </div>
-    </div>
+    </div> 
   );
 }

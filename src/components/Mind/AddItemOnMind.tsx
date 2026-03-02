@@ -59,7 +59,7 @@ export default function AddItemOnMind({ onAddItem }: AddItemOnMindProps) {
             px: 5,
             borderRadius: 2,
             fontWeight: "bold",
-            border: `1px solid ${alpha(theme.palette.form.main, 0.6)}`,
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.6)}`,
             color: alpha(theme.palette.common.white, 0.8),
             textTransform: "none",
             transition: "all 0.2s",
