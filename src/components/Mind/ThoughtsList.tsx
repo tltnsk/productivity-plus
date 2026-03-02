@@ -11,19 +11,36 @@ export default function ThoughtList({
   thoughts,
   deleteThought,
 }: ThoughtListProps) {
+  if (!thoughts.length) return null;
+
   return (
-    <ul className="mx-auto grid w-full max-w-6xl gap-4 mt-5 py-2 px-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
-      {thoughts.map((thought) => (
-        <li key={thought.id} className="w-full">
-          <div className="flex flex-row">
-            <ExtendThought
-              id={thought.id}
-              content={thought.content}
-              deleteThought={deleteThought}
-            />
-          </div>
-        </li>
-      ))}
-    </ul>
+    <div className="mx-auto mt-5 w-full max-w-4xl">
+      <div className="flex flex-wrap justify-center gap-6">
+        {thoughts.map((thought, index) => {
+          const rowOffset =
+            index % 4 === 0
+              ? "0.75rem"
+              : index % 4 === 1
+                ? "1.5rem"
+                : index % 4 === 2
+                  ? "0rem"
+                  : "2.25rem";
+
+          return (
+            <div
+              key={thought.id}
+              className="max-w-xs"
+              style={{ marginTop: rowOffset }}
+            >
+              <ExtendThought
+                id={thought.id}
+                content={thought.content}
+                deleteThought={deleteThought}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
