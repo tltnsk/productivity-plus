@@ -45,19 +45,19 @@ export const createAppTheme = (mode: PaletteMode) =>
               default: '#faf8f5', 
               paper: '#ffffff',
             },
-            primary: { main: '#9c8080', light: "#d4bebe",  dark: "#331919"},
-            secondary: { main: '#ff63e9' },
+            primary: { main: '#333333', light: "#6b6a6a",  dark: "#302f2f"},
+            secondary: { main: '#544d4d' },
             text: {
-              primary: '#664848', // brown
-              secondary: '#784859', // cherry
+              primary: '#333333', 
+              secondary: '#636363', 
             },
             form: {main: '#7d878a'},
             grid: {
-              twenty: '#d4bebe',
-              forty: '#b89c9c',
+              twenty: '#cfcccc',
+              forty: '#aba7a7',
               sixty: '#9c8080',
-              eighty: '#754d4d',
-              hundred: '#331919'
+              eighty: '#807e7e',
+              hundred: '#525050'
             }
           }),
     },
