@@ -30,8 +30,8 @@ export default function TaskItem({
 
   return (
     <div
-      className="group flex justify-between items-center space-x-3.5 space-y-4 bg-neutral-primary-soft border rounded-sm rounded-base shadow-xs transition-colors duration-150"
-      style={{ borderColor: alpha(theme.palette.text.secondary, 1) }}
+      className="group flex justify-between items-center space-x-3.5 space-y-4 shadow-xs transition-colors rounded-xl  duration-150"
+      style={{ backgroundColor: alpha(theme.palette.background.paper, 0.8) }}
     >
       <label className="p-1">
         <div
@@ -100,7 +100,7 @@ export default function TaskItem({
         <input
           type="checkbox"
           checked={task.completion === "completed"}
-          className="w-4 h-4 me-4 border border-default-medium rounded-xs focus:ring-2 focus:ring-brand-soft"
+          className="w-4 h-4 me-4 focus:ring-2 focus:ring-brand-soft"
           style={{
             accentColor: alpha(theme.palette.text.secondary, 1),
           }}

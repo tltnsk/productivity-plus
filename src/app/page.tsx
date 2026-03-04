@@ -294,7 +294,7 @@ export default function Home() {
         </section>
 
         <section className="mt-6">
-          <h2 className="text-xl font-semibold">Things on my mind</h2>
+          <h2 className="text-xl font-semibold">Ideas</h2>
 
           {/* add a new thought button */}
           <div className="flex justify-center w-full mt-4">
