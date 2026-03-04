@@ -11,10 +11,9 @@ import { Task } from "@/lib/types";
 import { DailySummary } from "@/lib/types";
 import TaskList from "@/components/TaskList";
 import { calculateProductivityScore } from "@/lib/scores";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import AddTaskForm from "@/components/AddTaskForm";
-import { useEffect } from "react";
 import ProductivityGrid from "@/components/ProductivityGrid";
 import Button from "@mui/material/Button";
 import { useTheme, alpha } from "@mui/material/styles";
@@ -106,27 +105,37 @@ export default function Home() {
   // Controls when ideas on mind form is visible
   const [showMindItemsForm, setShowMindItemsForm] = useState(false);
 
-  // date in YYYY-MM-DD format
-  const todayISO = new Date().toLocaleDateString("sv-SE");
+  // current day in YYYY-MM-DD format (tracks when the calendar day changes)
+  const [currentDateISO, setCurrentDateISO] = useState(
+    () => new Date().toLocaleDateString("sv-SE"),
+  );
 
-  // called when user clicks finish day button
-  // it calculates productivity, saves today into history and clears tasks
-  const finishDay = () => {
-    const summary: DailySummary = {
-      id: todayISO,
-      date: todayISO,
-      tasks,
-      productivityPercentage: calculateProductivityScore(tasks),
-    };
+  // automatically finish the day when the calendar date changes (past 23:59)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const nowISO = new Date().toLocaleDateString("sv-SE");
+      if (nowISO !== currentDateISO) {
+        if (tasks.length > 0) {
+          const summary: DailySummary = {
+            id: currentDateISO,
+            date: currentDateISO,
+            tasks,
+            productivityPercentage: calculateProductivityScore(tasks),
+          };
 
-    setDailyHistory((prev) => {
-      // remove any old entry for today (if user clicks twice)
-      const withoutToday = prev.filter((d) => d.date !== todayISO);
-      return [...withoutToday, summary];
-    });
+          setDailyHistory((prev) => {
+            const withoutToday = prev.filter((d) => d.date !== currentDateISO);
+            return [...withoutToday, summary];
+          });
 
-    setTasks([]);
-  };
+          setTasks([]);
+        }
+        setCurrentDateISO(nowISO);
+      }
+    }, 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [currentDateISO, tasks, setDailyHistory, setTasks]);
 
   // function to toggle task's completion
   const toggleTask = (taskId: string) => {
@@ -182,7 +191,7 @@ export default function Home() {
   };
 
   // date shown at the top of the page
-  const today = new Date().toLocaleDateString("en-US", {
+  const today = new Date(currentDateISO).toLocaleDateString("en-US", {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -256,35 +265,6 @@ export default function Home() {
             deleteTask={deleteTask}
             updateTask={updateTask}
           ></TaskList>
-
-          {/*Finish day */}
-          <div className="flex justify-center ">
-            <Button
-              onClick={finishDay}
-              type="submit"
-              sx={{
-                px: 5,
-                py: 1.5,
-                border: `2px solid ${alpha(theme.palette.primary.main, 0.5)}`,
-                borderRadius: 3,
-                fontWeight: "bold",
-                fontSize: 15,
-                textTransform: "none",
-                transition: "all 0.2s",
-                "&:hover": {
-                  backgroundColor: alpha(theme.palette.form.main, 0.05),
-                },
-                "& span": {
-                  background: theme.palette.primary.main,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                },
-              }}
-              disabled={showAddTaskForm}
-            >
-              <span>Finish Day</span>
-            </Button>
-          </div>
         </section>
 
         {/**Yearly grid  */}
