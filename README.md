@@ -1,6 +1,6 @@
 # Productivity+
 
-Productivity+ is a daily planning and reflection web app.
+×ivity+ is a daily planning and reflection web app.
 
 Create tasks with a **difficulty** and **priority** score, mark them complete, and see a **weighted productivity %** for the day. When the calendar day changes, today's tasks are archived into a **365-day heatmap** so you can track productivity over time.
 
