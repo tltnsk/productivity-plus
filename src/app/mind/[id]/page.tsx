@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
-import { ItemOnMind } from "@/lib/types";
-import ThoughtList from "@/components/Mind/ThoughtsList";
+import { ContentBlock, ItemOnMind } from "@/lib/types";
 
 import { Header } from "@/components/Header";
 
@@ -11,33 +10,7 @@ export default function MindPage() {
   const { id } = useParams();
 
   const [idea, setIdea] = useState<ItemOnMind | null>(null);
-  const [input, setInput] = useState("");
-
-  const deleteThought = (thoughtId: string) => {
-    if (!idea) return;
-
-    const updatedBlocks = (idea.blocks ?? []).filter(
-      (thought) => thought.id !== thoughtId,
-    );
-    const updatedIdea: ItemOnMind = {
-      ...idea,
-      blocks: updatedBlocks,
-    };
-
-    // update local state
-    setIdea(updatedIdea);
-
-    // update localStorage
-    const storedIdeas = localStorage.getItem("ideas");
-    if (!storedIdeas) return;
-
-    const allIdeas: ItemOnMind[] = JSON.parse(storedIdeas); 
-    const updatedIdeas = allIdeas.map((i) =>
-      i.id === idea.id ? updatedIdea : i,
-    );
-
-    localStorage.setItem("ideas", JSON.stringify(updatedIdeas));
-  };
+  const [text, setText] = useState("");
 
   useEffect(() => {
     const storedIdeas = localStorage.getItem("ideas");
@@ -50,7 +23,7 @@ export default function MindPage() {
       return;
     }
     // Normalize: ensure blocks exists (for ideas created before blocks were added)
-    const normalizedBlocks = (found.blocks ?? []).map((block) => ({
+    const normalizedBlocks: ContentBlock[] = (found.blocks ?? []).map((block) => ({
       ...block,
       id: block.id ?? crypto.randomUUID(),
     }));
@@ -60,28 +33,32 @@ export default function MindPage() {
       blocks: normalizedBlocks,
     };
     setIdea(currentIdea);
+    const initialText =
+      normalizedBlocks && normalizedBlocks.length
+        ? normalizedBlocks.map((block) => block.content).join("\n\n")
+        : "";
+    setText(initialText);
   }, [id]);
 
-  if (!idea) {
-    return <p>Idea not found.</p>;
-  }
+  const updateIdeaText = (newText: string) => {
+    if (!idea) return;
 
-  const addTextBlock = () => {
-    if (!idea || !input.trim()) return;
+    const blocks: ContentBlock[] = [
+      {
+        id: idea.blocks?.[0]?.id ?? crypto.randomUUID(),
+        type: "text",
+        content: newText,
+      },
+    ];
 
-    const blocks = idea.blocks ?? [];
     const updatedIdea: ItemOnMind = {
       ...idea,
-      blocks: [
-        ...blocks,
-        { id: crypto.randomUUID(), type: "text", content: input },
-      ],
+      blocks,
     };
 
-    // update local state
     setIdea(updatedIdea);
+    setText(newText);
 
-    // update localStorage
     const storedIdeas = localStorage.getItem("ideas");
     if (!storedIdeas) return;
 
@@ -91,34 +68,24 @@ export default function MindPage() {
     );
 
     localStorage.setItem("ideas", JSON.stringify(updatedIdeas));
-    setInput("");
   };
 
+  if (!idea) {
+    return <p>Idea not found.</p>;
+  }
+
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
 
-      <div className="p-8">
+      <div className="flex-1 p-8">
         <h1 className="mt-2 text-3xl">{idea.description}</h1>
 
-        {/* add new text */}
-        <input
-          type="text"
-          value={input}
-          placeholder="Enter thoughts..."
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              addTextBlock();
-            }
-          }}
-          className="mt-4 mb-8 w-full focus:border-transparent"
-        />
-
-        {/* render existing sub-ideas / thoughts */}
-        <ThoughtList
-          thoughts={idea.blocks ?? []}
-          deleteThought={deleteThought}
+        <textarea
+          value={text}
+          onChange={(e) => updateIdeaText(e.target.value)}
+          placeholder="Type all your thoughts here..."
+          className="mt-6 w-full h-[calc(100vh-10rem)] bg-transparent border-none outline-none focus:outline-none resize-none text-base leading-relaxed"
         />
       </div>
     </div> 
