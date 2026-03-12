@@ -106,9 +106,33 @@ export default function Home() {
   const [showMindItemsForm, setShowMindItemsForm] = useState(false);
 
   // current day in YYYY-MM-DD format (tracks when the calendar day changes)
-  const [currentDateISO, setCurrentDateISO] = useState(
-    () => new Date().toLocaleDateString("sv-SE"),
+  const [currentDateISO, setCurrentDateISO] = useState(() =>
+    new Date().toLocaleDateString("sv-SE"),
   );
+  const [todaysProductivity, setTodaysProductivity] = useState(0);
+  const [hasEndedToday, setHasEndedToday] = useState(false);
+
+  const endCurrentDay = () => {
+    if (tasks.length === 0) return;
+
+    const score = calculateProductivityScore(tasks);
+
+    const summary: DailySummary = {
+      id: currentDateISO,
+      date: currentDateISO,
+      tasks,
+      productivityPercentage: score,
+    };
+
+    setDailyHistory((prev) => {
+      const withoutToday = prev.filter((d) => d.date !== currentDateISO);
+      return [...withoutToday, summary];
+    });
+
+    setTodaysProductivity(score);
+    setHasEndedToday(true);
+    setTasks([]);
+  };
 
   // automatically finish the day when the calendar date changes (past 23:59)
   useEffect(() => {
@@ -131,6 +155,8 @@ export default function Home() {
           setTasks([]);
         }
         setCurrentDateISO(nowISO);
+        setTodaysProductivity(0);
+        setHasEndedToday(false);
       }
     }, 60 * 1000);
 
@@ -197,6 +223,17 @@ export default function Home() {
     month: "long",
   });
 
+  useEffect(() => {
+    const todaySummary = dailyHistory.find((d) => d.date === currentDateISO);
+    if (todaySummary) {
+      setTodaysProductivity(todaySummary.productivityPercentage);
+      setHasEndedToday(true);
+    } else {
+      setHasEndedToday(false);
+      setTodaysProductivity(calculateProductivityScore(tasks));
+    }
+  }, [dailyHistory, currentDateISO, tasks]);
+
   const theme = useTheme();
 
   // add items on mind
@@ -235,7 +272,7 @@ export default function Home() {
       <Header />
       <div className="pl-6 pr-6 max-w-3xl mx-auto">
         <h2 className="text-xl font-semibold">{today}</h2>
-        <p>Today's Productivity: {calculateProductivityScore(tasks)}%</p>
+        <p className="mt-1">Today's productivity: {todaysProductivity}%</p>
 
         {/* task section */}
         <section className="mt-6">
@@ -265,6 +302,35 @@ export default function Home() {
             deleteTask={deleteTask}
             updateTask={updateTask}
           ></TaskList>
+          <div className="mt-4 flex justify-center">
+            <Button
+              sx={{
+                py: 1.5,
+                px: 5,
+                borderRadius: 2,
+                fontWeight: "bold",
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.6)}`,
+                color: alpha(theme.palette.common.white, 0.8),
+                textTransform: "none",
+                transition: "all 0.2s",
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.form.main, 0.1),
+                },
+                "& span": {
+                  background: theme.palette.primary.main,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                },
+              }}
+              onClick={endCurrentDay}
+              className="py-2 px-10 border border-white/5 rounded-xl font-bold text-white/80 bg-white/10 hover:bg-white/15 transition-all cursor-pointer"
+              disabled={tasks.length === 0}
+            >
+              <span className="bg-blue-500 bg-clip-text text-transparent">
+                Finish Day
+              </span>
+            </Button>
+          </div>
         </section>
 
         {/**Yearly grid  */}
